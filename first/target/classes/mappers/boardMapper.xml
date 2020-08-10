@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.board.mappers.board">
+	<!-- 게시물 목록 -->
+	<select id="list" resultType="com.board.domain.BoardVO">
+		select
+		bno, title, content, writer, regDate, viewCnt
+		from springboard.tbl_board
+	</select>
+
+	<!-- 게시물 작성 -->
+	<insert id="write" parameterType="com.board.domain.BoardVO">
+		insert into
+		tbl_board(title, content, writer)
+		values(#{title}, #{content}, #{writer})
+	</insert>
+
+	<!-- 게시물 조회 -->
+	<select id="view" parameterType="int"
+		resultType="com.board.domain.BoardVO">
+		select
+		bno, title, content, writer, regDate, viewCnt
+		from
+		tbl_board
+		where
+		bno = #{bno}
+	</select>
+
+	<!-- 게시물 수정 -->
+	<select id="modify" parameterType="com.board.domain.BoardVO">
+		update tbl_board
+		set
+		title = #{title},
+		content=#{content},
+		writer=#{writer}
+		where bno = #{bno}
+	</select>
+
+	<!-- 게시물 삭제 -->
+	<delete id="delete" parameterType="int">
+		delete
+		from tbl_board
+		where bno = #{bno}
+	</delete>
+
+	<!-- 게시물 총 갯수 -->
+	<select id="count" resultType="int">
+		select count(bno) from tbl_board
+	</select>
+
+	<!-- 게시물 목록 + 페이징 -->
+	<select id="listPage" parameterType="hashMap"
+		resultType="com.board.domain.BoardVO">
+		select
+		bno, title, writer, regDate, viewCnt
+		from tbl_board
+		order by bno desc
+		limit #{displayPost}, #{postNum}
+	</select>
+
+	<!-- 게시물 목록 + 페이징 + 검색 -->
+	<select id="listPageSearch" parameterType="hashMap"
+		resultType="com.board.domain.BoardVO">
+		select
+		bno, title, writer, regDate, viewCnt
+		from tbl_board
+		<if test='searchType.equals("title")'>
+			where title LIKE concat('%',#{keyword},'%')
+		</if>
+
+		<if test='searchType.equals("content")'>
+			where content LIKE concat('%',#{keyword},'%')
+		</if>
+
+		<if test='searchType.equals("title_content")'>
+			where title LIKE concat('%',#{keyword},'%')
+			or where content LIKE
+			concat('%',#{keyword},'%')
+		</if>
+
+		<if test='searchType.equals("writer")'>
+			where writer LIKE concat('%',#{keyword},'%')
+		</if>
+
+		order by bno desc
+		limit #{displayPost}, #{postNum}
+	</select>
+
+	<!-- 게시물 총 갯수 + 검색 적용 -->
+	<select id="searchCount" parameterType="hashMap"
+		resultType="int">
+		select count(bno) from tbl_board
+
+		<if test='searchType.equals("title")'>
+			WHERE title LIKE concat('%', #{keyword}, '%')
+		</if>
+
+		<if test='searchType.equals("content")'>
+			WHERE content LIKE concat('%', #{keyword}, '%')
+		</if>
+
+		<if test='searchType.equals("title_content")'>
+			WHERE title LIKE concat('%', #{keyword}, '%')
+			or content LIKE concat('%', #{keyword}, '%')
+		</if>
+
+		<if test='searchType.equals("writer")'>
+			WHERE writer LIKE concat('%', #{keyword}, '%')
+		</if>
+	</select>
+	
+	<!-- 댓글 리스트 -->
+	<select id="boardReplyList" resultType="com.board.domain.BoardReplyVO" parameterType="int">
+		select
+			reply_id,
+			board_bno,
+			parent_id,
+			depth,
+			reply_content,
+			reply_writer,
+			reply_password
+		from 
+			board_reply
+		where 
+			board_bno = #{bno}
+		order by reply_id asc
+	</select>
+	
+	<!-- 댓글 등록 -->
+	<insert id = "insertBoardReply" parameterType="hashMap" useGeneratedKeys="true" keyProperty="reply_id">
+		insert into board_reply(
+			board_bno,
+			parent_id,
+			depth,
+			reply_content,
+			reply_writer,
+			reply_password
+		)values(
+			#{board_bno},
+			#{parent_id},
+			#{depth},
+			#{reply_content},
+			#{reply_writer},
+			#{reply_password}
+		)
+	</insert>
+	
+	<!-- 댓글 삭제 -->
+	<delete id="deleteBoardReply" parameterType="hashMap">
+		delete
+		from
+			board_reply
+		where
+			reply_id = #{reply_id}
+			and reply_password = #{reply_password}
+	</delete>
+	
+	<!-- 대댓글까지 삭제 -->
+	<delete id="deleteBoardReplyAll" parameterType="hashMap">
+        delete
+        from
+            board_reply
+        where
+            reply_id in (
+                select
+                    reply_id
+                from
+                (select
+                    reply_id
+                from
+                    board_reply
+                where
+                    reply_id = #{reply_id}
+                    and reply_password = #{reply_password}) a
+            ) or parent_id in (
+                select
+                    reply_id
+                from
+                (select
+                    reply_id
+                from
+                    board_reply
+                where
+                    reply_id = #{reply_id}
+                    and reply_password = #{reply_password}) a
+            )
+    </delete>
+	<!-- 댓글 수정 -->
+	<update id="updateReply" parameterType="hashMap">
+		update
+			board_reply
+		set 
+			parent_id = #{parant_id},
+			depth = #{depth},
+			reply_content = #{reply_content},
+			reply_writer = #{reply_writer},
+			reply_password = #{reply_password}
+		where
+			reply_id = #{reply_id}
+	</update>
+	
+	<!-- 댓글 패스워드 확인 -->
+	<select id="selectReplyPassword" resultType="int" parameterType="java.util.HashMap">
+        select
+            count(*)
+        from
+            board_reply
+        where
+            reply_id = #{reply_id}
+            and reply_password = #{reply_password}
+	</select>
+</mapper>
