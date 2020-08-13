@@ -3,8 +3,8 @@ Bundle-ManifestVersion: 2
 Bundle-Name: first
 Bundle-SymbolicName: webProject
 Bundle-Version: 1.0.0.qualifier
-Export-Package: com.board.controller,
- com.board.dao,
+Export-Package: com.board.dao,
  com.board.domain,
  com.board.service,
+ com.hjProject.controller,
  mappers

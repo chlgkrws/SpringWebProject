@@ -16,5 +16,7 @@
    		<li>
    			<a href="/board/write">글 작성</a>
    		</li>
-   
+  		<li>
+  			<a href="/sign/signUp">회원가입</a>
+  		</li>
    </ul>

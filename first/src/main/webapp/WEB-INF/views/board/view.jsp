@@ -36,11 +36,11 @@ textarea {
 	</div>
 
 	<hr />
-	<div class="content">${view.content }</div>
+	<div class="content" style="height:auto; overflow:auto;" >${view.content }</div>
 	<hr />
 	<div>
-	<a href="/board/write">게시물 수정</a>
-		< <a href="/board/modify?bno=${view.bno }">게시물 수정</a>, <a
+
+	 <a href="/board/modify?bno=${view.bno }">게시물 수정</a>, <a
 			href="/board/delete?bno=${view.bno }">게시물 삭제</a>
 	</div>
 
@@ -84,9 +84,10 @@ textarea {
 					</td>
 				</tr>
 			</c:forEach>
+			</table>
 	</c:if>
 	<!-- 댓글등록 -->
-	</table>
+	
 	<table border="1" width="1200px" bordercolor="#46AA46">
 		<tr>
 			<td width="500px">이름: <input type="text" id="reply_writer"

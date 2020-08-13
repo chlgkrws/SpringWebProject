@@ -52,7 +52,7 @@ public class BoardDAOImpl implements BoardDAO {
 
 	@Override
 	public List listPage(int displayPost, int postNum) throws Exception {
-		HashMap<String, Integer> data = new HashMap<>();
+		HashMap<String, Integer> data = new HashMap<String, Integer>();
 		data.put("displayPost", displayPost);
 		data.put("postNum", postNum);
 

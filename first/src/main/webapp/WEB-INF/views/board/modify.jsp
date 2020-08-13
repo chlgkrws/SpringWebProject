@@ -19,9 +19,20 @@
 	<input type="text" name="writer" value="${view.writer }"/><br/>
 	
 	<label>내용</label>
-	<textarea rows="5" cols="50" name="content" >${view.content }</textarea><br/>
+	<textarea rows="5" cols="50" name="content" id ="content" >${view.content }</textarea><br/>
 	
 	<button type="summit">완료</button>
+	
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.js"></script>
+    <script src="<c:url value="/resources/ckeditor/ckeditor.js" />"></script>
+    <script type="text/javascript">
+            $(document).ready(function(){
+                 
+                CKEDITOR.replace( 'content' );
+                CKEDITOR.config.height = 500;
+                
+            });
+        </script>
 </form>
 </body>
 </html>

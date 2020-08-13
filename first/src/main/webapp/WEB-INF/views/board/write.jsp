@@ -57,7 +57,7 @@
                             /* <c:if test="${boardView.id != null}"> //있으면 수정 없으면 등록
                             id          : $("#board_id").val(),
                             </c:if> */
-                            subject     : $("#title").val(),
+                            title     : $("#title").val(),
                             writer      : $("#writer").val(),
                             content     : content
                     };
@@ -76,6 +76,7 @@
                                 location.href = "/board/list";  
                             } else {
                                 alert(retVal.message);
+                                /* location.href = ""; */
                             }
                              
                         },
