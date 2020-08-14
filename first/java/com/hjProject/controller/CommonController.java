@@ -11,7 +11,7 @@ import jdk.internal.jline.internal.Log;
 public class CommonController {
 	@GetMapping("/accessError")
 	public void accessDenied(Authentication auth, Model model) {
-		Log.info("access Denied : " + auth);
+
 		model.addAttribute("msg","Access Denied");
 	}
 	

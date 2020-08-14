@@ -17,7 +17,7 @@
 	<label>비밀 번호</label>
 	<input type="password" name="student_password" id = "student_password"></input><br/>
 	
-	<button type="summit" id="sign_up" name="sign_up">회원가입</button>
+	<button type="button" id="sign_up" name="sign_up">회원가입</button>
 </form>
 
 <script type="text/javascript"

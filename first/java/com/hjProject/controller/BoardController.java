@@ -51,7 +51,7 @@ public class BoardController {
 	@RequestMapping(value = "/view", method = RequestMethod.GET)
 	public void getView(@RequestParam("bno") int bno, Model model) throws Exception {
 		BoardVO vo = service.view(bno);
-
+		
 		// 댓글
 		model.addAttribute("view", vo);
 		model.addAttribute("replyList", service.getReplyList(bno));

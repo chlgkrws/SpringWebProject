@@ -12,7 +12,7 @@ www.w3.org/TR/html4/loose.dtd">
 </head>
 <body>
 <h1>Access Denied Page</h1>
-<h2><c:out value ="${SPRING_SECURITY_403)EXEPTION.getMessage() }"></c:out></h2>
+<h2><c:out value ="${SPRING_SECURITY_403_EXEPTION.getMessage() }"></c:out></h2>
 <h2><c:out value="${msg }"/></h2>
 </body>
 </html>

@@ -46,7 +46,7 @@ textarea {
 
 	<p id="bno" name="bno" value="${view.bno }">${view.bno }</p>
 
-
+	
 	<c:if test="${!replyList.isEmpty()}">
 		<table border="1" width="1200px" id="reply_area">
 			<tr reply_type="all" style="display: none">
@@ -86,6 +86,7 @@ textarea {
 			</c:forEach>
 			</table>
 	</c:if>
+	
 	<!-- 댓글등록 -->
 	
 	<table border="1" width="1200px" bordercolor="#46AA46">
@@ -103,8 +104,7 @@ textarea {
 					cols="50" placeholder="댓글을 입력하세요."></textarea></td>
 		</tr>
 	</table>
-
-
+	<h1>${sessionScope.id }</h1>
 	<script type="text/javascript">
 		var model = [];
 		model.bno = "${view.bno}";

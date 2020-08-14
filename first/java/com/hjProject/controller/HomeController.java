@@ -36,7 +36,7 @@ public class HomeController {
 		
 		model.addAttribute("serverTime", formattedDate );
 		System.out.println("hi time is :"+ formattedDate+"접속 ip"+request.getRemoteAddr());
-		System.out.println(request.getSession().getId());
+		//System.out.println(request.getSession().getId());
 		
 		return "home";
 	}

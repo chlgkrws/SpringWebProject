@@ -5,24 +5,31 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
 		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.1.xsd">
 
+	<bean id="customLoginSuccess" class="com.hjProject.security.CustomLoginSuccessHandler"></bean>
 	<security:http auto-config="true" use-expressions="true">
 		<security:intercept-url pattern="/board/listPageSearch" access="permitAll"/>
 		
 		<security:intercept-url pattern="/board/view" access="hasRole('ROLE_MEMBER')"/>
 		
-		<security:intercept-url pattern="/listPage" access="hasRole('ROLE_ADMIN')"/>
-		<security:form-login/>	
-		
+		<security:intercept-url pattern="/board/listPage" access="hasRole('ROLE_ADMIN')"/>
+		<security:form-login login-page="/sign/login" authentication-success-handler-ref='customLoginSuccess'/>	
+		<security:logout logout-url="/sign/logout" invalidate-session="true"/>
 		<security:access-denied-handler error-page="/accessError"/>
 	</security:http>
 	
+	<!-- <security:jdbc-user-service  data-source-ref="dataSource" id="userService"
+		users-by-username-query="SELECT student_id as username, student_password as password from student_info where student_id = ?"
+		authorities-by-username-query="SELECT student_id as username, student_auth as auth from student_info where student_id = ?"
+	/> -->
+		<!-- user-service-ref="userService" -->
 	<security:authentication-manager>
-		<security:authentication-provider>
-			<security:user-service>
+		<security:authentication-provider >
+			 <security:user-service>
 				<security:user name="member" password="member" authorities="ROLE_MEMBER"/>
 				
 				<security:user name="admin" password="admin" authorities="ROLE_MEMBER,ROLE_ADMIN"/>
-			</security:user-service>
+			</security:user-service> 
+			<!-- <security:password-encoder ref="bcryptPasswordEncoder"></security:password-encoder> -->
 		</security:authentication-provider>
 	</security:authentication-manager>
 </beans>
