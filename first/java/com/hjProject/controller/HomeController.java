@@ -27,7 +27,6 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model, HttpServletRequest request) {
-		logger.info("Welcome home! The client locale is {}.", locale);
 		
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
@@ -35,7 +34,8 @@ public class HomeController {
 		String formattedDate = dateFormat.format(date);
 		
 		model.addAttribute("serverTime", formattedDate );
-		System.out.println("hi time is :"+ formattedDate+"접속 ip"+request.getRemoteAddr());
+		logger.info("Welcome home! The client locale is {}.", locale+" 시간 : "+ formattedDate+" 접속 ip : "+request.getRemoteAddr());
+		
 		//System.out.println(request.getSession().getId());
 		
 		return "home";

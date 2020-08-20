@@ -31,4 +31,9 @@ public class SignDAOImpl implements SignDAO{
 		return result.equals("1234") ? true : false;
 	}
 
+	@Override
+	public String selectName(String student_id) {
+		return sql.selectOne(namespace+".selectUserName", student_id);
+	}
+
 }

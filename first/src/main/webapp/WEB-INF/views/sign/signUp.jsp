@@ -4,10 +4,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="_csrf_header" content="${_csrf.headerName}" />
+    <meta name="_csrf" content="${_csrf.token}" />
 <title>Insert title here</title>
+
+
 </head>
 <body>
-<form method="post">
+
 	<label>학번</label>
 	<input type="text" name="student_id" id = "student_id"/><br/>
 	
@@ -17,14 +21,20 @@
 	<label>비밀 번호</label>
 	<input type="password" name="student_password" id = "student_password"></input><br/>
 	
-	<button type="button" id="sign_up" name="sign_up">회원가입</button>
-</form>
+	<div>
+		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+	</div>
+	<button type="submit" id="sign_up" name="sign_up">회원가입</button>
+
 
 <script type="text/javascript"
 		src="http://code.jquery.com/jquery-1.11.3.js"></script>
+		
 		<script type="text/javascript">
+		var header = $("meta[name='_csrf_header']").attr("content");
+        var token = $("meta[name='_csrf']").attr("content");
 			$(document).ready(function(){
-
+				
 				$("#sign_up").click(function(){
 
 					//널 검사
@@ -58,16 +68,19 @@
                         success     :   function(retVal){	 
                             if(retVal.code == "OK") {
                                 alert(retVal.message);
-                                location.href = "redirect:/";  
+                                location.href = "/board/listPageSearch?num=1";  
                             } else {
                                 alert(retVal.message);
-                               location.reload();
+                                location.reload();
                             }
                              
                         },
                         error       :   function(request, status, error){
                             console.log("AJAX_ERROR");
-                        }
+                        },
+                        beforeSend:function(xhr){
+							xhr.setRequestHeader(header, token);
+                            }
 
 
 					});

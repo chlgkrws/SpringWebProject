@@ -27,8 +27,8 @@ public class BoardServiceImpl implements BoardService {
 
 	// 게시물 작성
 	@Override
-	public void write(BoardVO vo) throws Exception {
-		dao.write(vo);
+	public int write(Map<String, Object> paramMap) throws Exception {
+		return dao.write(paramMap);
 	}
 
 	// 게시물 조회

@@ -23,4 +23,11 @@ public class SignServiceImpl implements SignService {
 		return dao.signedCheck(student_id);
 	}
 
+	@Override
+	public String selectName(String student_id) {
+		return dao.selectName(student_id);
+	}
+	
+	
+
 }

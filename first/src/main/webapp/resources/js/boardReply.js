@@ -1,5 +1,6 @@
 	$(document).ready(function(){
-				
+				var header = $("meta[name='_csrf_header']").attr("content");
+        var token = $("meta[name='_csrf']").attr("content");
 				//댓글 저장
 				$('#reply_save').click(function(){
 					//널 검사
@@ -48,7 +49,10 @@
 						},
 						error	: function(request, status, error){
 							console.log("AJAX_ERROR");
-						}
+						},
+                        beforeSend:function(xhr){
+							xhr.setRequestHeader(header, token);
+                            }
                      });
                      
                     var reply = 
@@ -71,6 +75,7 @@
                         
                     if($('#reply_area').contents().size()==0){
                     	 $('#reply_area').append(reply);
+                    	 window.location.replace("/board/view?bno="+model.bno);
                     }else{
                         $('#reply_area tr:last').after(reply);
                     }
@@ -122,7 +127,10 @@
 					},
 					error		:	function(request, status, error){
 						console.log("AJAX_ERROR");
-					}
+					},
+                        beforeSend:function(xhr){
+							xhr.setRequestHeader(header, token);
+                            }
 				});
 				
 			    if(check){
@@ -190,7 +198,10 @@
                         },
                         error       :   function(request, status, error){
                             console.log("AJAX_ERROR");
-                        }
+                        },
+                        beforeSend:function(xhr){
+							xhr.setRequestHeader(header, token);
+                            }
                     });
                     
                     
@@ -368,7 +379,10 @@
                         },
                         error       :   function(request, status, error){
                             console.log("AJAX_ERROR");
-                        }
+                        },
+                        beforeSend:function(xhr){
+							xhr.setRequestHeader(header, token);
+                            }
                     });
                     
                     //수정된댓글 내용을 적고
@@ -540,7 +554,10 @@
                         },
                         error        :    function(request, status, error){
                             console.log("AJAX_ERROR");
-                        }
+                        },
+                        beforeSend:function(xhr){
+							xhr.setRequestHeader(header, token);
+                            }
                     });
                     
                     var reply = 

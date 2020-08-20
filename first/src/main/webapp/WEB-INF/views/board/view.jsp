@@ -1,10 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+  <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="_csrf_header" content="${_csrf.headerName}" />
+    <meta name="_csrf" content="${_csrf.token}" />
 <title>게시물 조회</title>
 
 </head>
@@ -32,7 +35,7 @@ textarea {
 
 	<hr />
 	<div class="writer">
-		<span>작성자 : </span> ${view.writer }"
+		<span>작성자 : </span> ${view.writer }
 	</div>
 
 	<hr />
@@ -104,7 +107,11 @@ textarea {
 					cols="50" placeholder="댓글을 입력하세요."></textarea></td>
 		</tr>
 	</table>
-	<h1>${sessionScope.id }</h1>
+	<h1>${sessionScope.student_id }</h1>
+	<h1>${sessionScope.student_name }</h1>
+	<sec:authorize access="isAuthenticated()">
+	<p><sec:authentication property="principal.student_name"></sec:authentication></p>
+	</sec:authorize>
 	<script type="text/javascript">
 		var model = [];
 		model.bno = "${view.bno}";
@@ -120,12 +127,14 @@ textarea {
 			var writer = ${view.writer};
 			var content = ${view.content};
 			var title = ${view.title};
+			var name =$("#student_name").val();
 
 			var objParams = {
 				bno :bno,
 				writer : writer,
 				content : content,
-				title : title
+				title : title,
+				name = name
 			};
 
 			$.ajax({

@@ -10,6 +10,17 @@
 		</layout>
 	</appender>
 	
+	<!-- 파일에 로그 찍기! -->
+    <appender name="fileLogger" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="file" value="c://logs//spring//spring.Log"/>
+        <param name="Append" value="true"/>
+        <param name="dataPattern" value=".yyyy-MM-dd"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}] %-5p: %F:%L - %m%n" />
+        </layout>
+    </appender>
+	
+	
 	<!-- Application Loggers -->
 	<logger name="com.spring.test">
 		<level value="info" />
@@ -34,8 +45,9 @@
 
 	<!-- Root Logger -->
 	<root>
-		<priority value="warn" />
-		<appender-ref ref="console" />
+		<priority value="info" />
+		<appender-ref ref="console" /> 	
+		<appender-ref ref="fileLogger"/>
 	</root>
 	
-</log4j:configuration>
+</log4j:configuration> 

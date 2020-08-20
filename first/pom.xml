@@ -83,6 +83,13 @@
 			</exclusions>
 			<scope>runtime</scope>
 		</dependency>
+		
+		<!-- logging2 -->
+		<dependency>
+			<groupId>org.bgee.log4jdbc-log4j2</groupId>
+			<artifactId>log4jdbc-log4j2-jdbc4</artifactId>
+			<version>1.16</version>
+		</dependency>
 
 		<!-- @Inject -->
 		<dependency>
@@ -175,6 +182,11 @@
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.13</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-core-asl</artifactId>
 			<version>1.9.13</version>
 		</dependency>
 		<dependency>

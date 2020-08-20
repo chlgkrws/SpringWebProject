@@ -11,7 +11,7 @@ public interface BoardDAO {
 	public List<BoardVO> list() throws Exception;
 	
 	//게시물 작성
-	public void write(BoardVO vo) throws Exception;
+	public int write(Map<String, Object> paramMap) throws Exception;
 	
 	//게시물 조회
 	public BoardVO view(int bno) throws Exception;

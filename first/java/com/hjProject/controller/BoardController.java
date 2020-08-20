@@ -5,7 +5,10 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,9 +24,11 @@ import com.board.service.BoardService;
 @Controller
 @RequestMapping("/board/*")
 public class BoardController {
+	private Logger log = LoggerFactory.getLogger(BoardController.class);
+	
 	@Inject
 	BoardService service;
-
+	
 	// 게시물 목록
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public void getList(Model model) throws Exception {
@@ -41,10 +46,21 @@ public class BoardController {
 
 	// 게시물 작성
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
-	public String postWrite(BoardVO vo) throws Exception {
-		System.out.println(vo.getBno());
-		service.write(vo);
-		return "redirect:/board/list";
+	@ResponseBody
+	public Map<String, Object> postWrite(@RequestParam Map<String, Object> paramMap, HttpServletRequest request) throws Exception {
+		log.info(request.getRemoteAddr()+ "에서 "+paramMap.get("writer") +"님이 글을 작성했습니다.");
+		int result = service.write(paramMap);
+		
+		Map<String, Object> retVal = new HashMap<String, Object>();
+		
+		if(result > 0) {
+			retVal.put("code", "OK");
+			retVal.put("message", "게시물을 업로드했습니다.");
+		}else {
+			retVal.put("code", "FAIL");
+			retVal.put("message", "게시물을 업로드하지 못했습니다.");
+		}
+		return retVal;
 	}
 
 	// 게시물 조회

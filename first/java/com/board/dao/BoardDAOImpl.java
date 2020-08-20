@@ -26,8 +26,8 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public void write(BoardVO vo) throws Exception {
-		sql.insert(namespace + ".write", vo);
+	public int write(Map<String, Object> paramMap) throws Exception {
+		return sql.insert(namespace + ".write", paramMap);
 	}
 
 	@Override

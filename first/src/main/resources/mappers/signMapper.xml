@@ -21,4 +21,25 @@
 		where
 			student_id = #{student_id}
 	</select>
+	
+	<!-- 로그인 페이지에서 지정한 ID의 input 태그에 있는 name 속성을 적어줘야 한다. -->
+	<!-- db로 로그인하기 -->
+	<select id="selectUserById" resultType="com.sign.domain.CustomUserDetails">
+		select 
+			student_id, student_name, student_password, auth, enabled
+		from 
+			student_info
+		where 
+			student_id = #{username}
+	</select>
+	
+	<select id="selectUserName" resultType="string">
+		select
+			student_name
+		from 
+			student_info
+		where student_id = #{student_id}
+		
+	</select>
+	
 </mapper>

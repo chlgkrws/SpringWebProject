@@ -6,7 +6,9 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,9 +17,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sign.service.SignService;
 
+
 @Controller
 @RequestMapping("/sign/*")
 public class SignController {
+	private Logger log = LoggerFactory.getLogger(SignController.class);
 	
 	@Inject
 	SignService service;
@@ -29,16 +33,19 @@ public class SignController {
 	@RequestMapping(value = "/signUp", method = RequestMethod.POST)
 	@ResponseBody
 	public Object postSignUp(@RequestParam Map<String, Object> paramMap) {
+		
+		
 		Map<String, Object> retVal = new HashMap<String, Object>();
 		/*
 		 * System.out.println(paramMap.get("student_id").toString());
 		 * System.out.println(paramMap.get("student_name").toString());
 		 * System.out.println(paramMap.get("student_password").toString());
 		 */
-		System.out.println("hi");
-		ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
-		String password = encoder.encodePassword(paramMap.get("student_password").toString(), null);
-		
+		System.out.println(paramMap.get("student_name")+"님이 회원가입 시도 중...");
+		//ShaPasswordEncoder encoder = new ShaPasswordEncoder();
+		//String password = encoder.encodePassword(paramMap.get("student_password").toString(), null);
+		BCryptPasswordEncoder bEncoder = new BCryptPasswordEncoder();
+		String password = bEncoder.encode(paramMap.get("student_password").toString());
 		paramMap.put("student_password", password);
 		//System.out.println(paramMap.get("student_password").toString());
 		
@@ -64,14 +71,16 @@ public class SignController {
 		return retVal;
 	}
 	
-	@RequestMapping(value = "/login",method = RequestMethod.GET)
-	public void getLogin(HttpSession session) {
+	@RequestMapping(value = "/customLogin",method = RequestMethod.GET)
+	public void getLogin(HttpSession session,String error, String logout) {
+		System.out.println("hi this is /login get");
+		log.info("this is customLogin");
 		
 	}
 
-	@RequestMapping(value = "/login",method = RequestMethod.POST)
+	@RequestMapping(value = "/customLogin",method = RequestMethod.POST)
 	public void Login(HttpSession session) {
-		System.out.println("hi");
+		System.out.println("hi this is /login post");
 	}
 	
 	@RequestMapping(value = "/logout")
