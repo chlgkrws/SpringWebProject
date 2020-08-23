@@ -13,7 +13,7 @@
 		<security:intercept-url pattern="/board/listPageSearch" access="permitAll"/>
 		<security:intercept-url pattern="/board/view" access="hasAnyRole('ROLE_MEMBER,ROLE_ADMIN')"/>
 		<security:intercept-url pattern="/board/listPage" access="hasRole('ROLE_ADMIN')"/>
-		<security:intercept-url pattern="/write" access="hasAnyRole('ROLE_MEMBER,ROLE_ADMIN')"/>
+		<security:intercept-url pattern="/board/write" access="hasAnyRole('ROLE_MEMBER,ROLE_ADMIN')"/>
 		<security:form-login 
 		username-parameter="username"
 		password-parameter="password"

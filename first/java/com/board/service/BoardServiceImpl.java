@@ -39,24 +39,26 @@ public class BoardServiceImpl implements BoardService {
 
 	// 게시물 수정
 	@Override
-	public void modify(BoardVO vo) throws Exception {
-		dao.modify(vo);
+	public int modify(Map<String, Object>paramMap) throws Exception {
+		return dao.modify(paramMap);
 	}
 
+	// 게시글 삭제
 	@Override
 	public void delete(int bno) throws Exception {
 		dao.delete(bno);
 	}
-
+	// 게시글 카운트
 	public int count() throws Exception {
 		return dao.count();
 	}
-
+	
+	//리스트 페이지
 	@Override
 	public List listPage(int displayPost, int postNum) throws Exception {
 		return dao.listPage(displayPost, postNum);
 	}
-
+	//리스트 페이지 서치
 	@Override
 	public List<BoardVO> listPageSearch(int displayPost, int postNum, String searchType, String keyword)
 			throws Exception {
@@ -109,7 +111,8 @@ public class BoardServiceImpl implements BoardService {
 		}
 
 	}
-
+	
+	//댓글 등록
 	@Override
 	public int regReply(Map<String, Object> paramMap) {
 		
@@ -131,5 +134,11 @@ public class BoardServiceImpl implements BoardService {
     public boolean checkReply(Map<String, Object> paramMap) {
         return dao.checkReply(paramMap);
     }
+
+	@Override
+	public void viewCnt(int bno) throws Exception {
+		dao.viewCnt(bno);
+		
+	}
 
 }

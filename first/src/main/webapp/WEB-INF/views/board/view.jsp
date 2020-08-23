@@ -25,7 +25,19 @@ textarea {
 }
 </style>
 <body>
-
+	<sec:authorize access="isAuthenticated()">
+	<p><sec:authentication property="principal.student_name" var="principal_name"></sec:authentication></p>
+	</sec:authorize>
+	
+	<sec:authorize access="isAuthenticated()">
+	<p><sec:authentication property="principal.username" var="principal_id"></sec:authentication></p>
+	</sec:authorize>
+	
+	<div>
+		<input type="hidden" name="principal_name" id="principal_name" value="${principal_name }">
+		<input type="hidden" name="principal_id" id="principal_id" value="${principal_id }">
+	</div>
+	
 	<div id="nav">
 		<%@ include file="../include/nav.jsp"%>
 	</div>
@@ -42,9 +54,11 @@ textarea {
 	<div class="content" style="height:auto; overflow:auto;" >${view.content }</div>
 	<hr />
 	<div>
-
+	
+	<c:if test="${writer != null }">
 	 <a href="/board/modify?bno=${view.bno }">게시물 수정</a>, <a
 			href="/board/delete?bno=${view.bno }">게시물 삭제</a>
+	</c:if>
 	</div>
 
 	<p id="bno" name="bno" value="${view.bno }">${view.bno }</p>
@@ -64,11 +78,7 @@ textarea {
 					</td>
 					<td width="100px">${replyList.reply_writer}
 					</td>
-					<td width="100px"><input type="password"
-						id="reply_password_${replyList.reply_id}" style="width: 100px;"
-						maxlength="10" placeholder="패스워드" />
-					</td>
-					<td align="center"><c:if test="${replyList.depth != '1'}">
+					<td align="center" width="200px"><c:if test="${replyList.depth != '1'}">
 						
 						<button name="reply_reply" parent_id="${replyList.reply_id}"
 								reply_id="${replyList.reply_id}">댓글
@@ -83,7 +93,6 @@ textarea {
 							r_type="<c:if test="${replyList.depth == '0'}">main</c:if><c:if test="${replyList.depth == '1'}">sub</c:if>"
 							reply_id="${replyList.reply_id}">삭제
 						</button>
-						
 					</td>
 				</tr>
 			</c:forEach>
@@ -94,11 +103,12 @@ textarea {
 	
 	<table border="1" width="1200px" bordercolor="#46AA46">
 		<tr>
-			<td width="500px">이름: <input type="text" id="reply_writer"
-				name="reply_writer" style="width: 170px;" maxlength="10"
-				placeholder="작성자" /> 패스워드: <input type="password"
+			<td width="500px">
+				${principal_name }
+				 
+				 <!-- 패스워드: <input type="password"
 				id="reply_password" name="reply_password" style="width: 170px;"
-				maxlength="10" placeholder="패스워드" />
+				maxlength="10" placeholder="패스워드" /> -->
 				<button id="reply_save" name="reply_save">댓글 등록</button>
 			</td>
 		</tr>
@@ -109,9 +119,7 @@ textarea {
 	</table>
 	<h1>${sessionScope.student_id }</h1>
 	<h1>${sessionScope.student_name }</h1>
-	<sec:authorize access="isAuthenticated()">
-	<p><sec:authentication property="principal.student_name"></sec:authentication></p>
-	</sec:authorize>
+	
 	<script type="text/javascript">
 		var model = [];
 		model.bno = "${view.bno}";
@@ -122,7 +130,7 @@ textarea {
 	<script src="<c:url value="/resources/js/boardReply.js" />"></script>
 	<!-- 글 수정 -->
 	<script type="text/javascript">
-		$(document).ready(function(){
+		/* $(document).ready(function(){
 			var bno = ${view.bno};
 			var writer = ${view.writer};
 			var content = ${view.content};
@@ -152,7 +160,7 @@ textarea {
 					
 				}
 			});
-		});
+		}); */
 	</script>
 	
 </body>

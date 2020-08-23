@@ -14,7 +14,7 @@
 		학번 : <input type="text" name="username" id="student_id" value="${username }"/>
 	</div>
 	<div>
-		비밀번호  :<input type="password" name="password" id="student_password" value="${password }"/>
+		비밀번호  :<input type="password" name="password" id="student_password" value="" autocomplete="new-password"/>
 	</div>
 	<div>
 		<button type="submit" id="login" name="login" >제출</button>
@@ -26,7 +26,7 @@
 	<c:if test="${not empty ERRORMSG }">
 		<font color="red">
 			<p>Your login attempt was not successful due to <br/>
-			${ERRORMSG }</p>
+			${ERRORMSG}</p>
 		</font>
 	</c:if>	
 </form>

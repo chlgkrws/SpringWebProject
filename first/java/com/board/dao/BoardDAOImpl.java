@@ -36,8 +36,8 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public void modify(BoardVO vo) throws Exception {
-		sql.update(namespace + ".modify", vo);
+	public int modify(Map<String, Object>paramMap) throws Exception {
+		return sql.update(namespace + ".modify", paramMap);
 	}
 
 	@Override
@@ -116,7 +116,7 @@ public class BoardDAOImpl implements BoardDAO {
 
 	@Override
 	public boolean checkReply(Map<String, Object> paramMap) {
-		int result = sql.selectOne("selectReplyPassword", paramMap);
+		int result = sql.selectOne("selectReplyStudent_id", paramMap);
 
 		if (result > 0) {
 			return true;
@@ -124,6 +124,11 @@ public class BoardDAOImpl implements BoardDAO {
 			return false;
 		}
 
+	}
+
+	@Override
+	public void viewCnt(int bno) throws Exception {
+		sql.update(namespace+".viewCnt",bno);
 	}
 
 }

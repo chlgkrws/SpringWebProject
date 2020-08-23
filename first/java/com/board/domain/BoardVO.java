@@ -20,6 +20,7 @@ public class BoardVO {
 	private String title;
 	private String content;
 	private String writer;
+	private String student_id;
 	
 	public int getBno() {
 		return bno;
@@ -58,6 +59,16 @@ public class BoardVO {
 	public void setViewCnt(int viewCnt) {
 		this.viewCnt = viewCnt;
 	}
+	
+	
+	public String getStudent_id() {
+		return student_id;
+	}
+	public void setStudent_id(String student_id) {
+		this.student_id = student_id;
+	}
+
+
 	private Date regDate;
 	private int viewCnt;
 }

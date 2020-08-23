@@ -14,15 +14,15 @@
 	<!-- 게시물 작성 -->
 	<insert id="write" parameterType="hashMap">
 		insert into
-		tbl_board(title, content, writer)
-		values(#{title}, #{content}, #{writer})
+		tbl_board(title, content, writer,student_id)
+		values(#{title}, #{content}, #{writer}, #{student_id})
 	</insert>
 
 	<!-- 게시물 조회 -->
 	<select id="view" parameterType="int"
 		resultType="com.board.domain.BoardVO">
 		select
-		bno, title, content, writer, regDate, viewCnt
+		bno, title, content, writer, regDate, viewCnt, student_id
 		from
 		tbl_board
 		where
@@ -30,12 +30,12 @@
 	</select>
 
 	<!-- 게시물 수정 -->
-	<select id="modify" parameterType="com.board.domain.BoardVO">
+	<select id="modify" parameterType="hashMap">
 		update tbl_board
 		set
 		title = #{title},
-		content=#{content},
-		writer=#{writer}
+		content=#{content}
+		
 		where bno = #{bno}
 	</select>
 
@@ -112,6 +112,16 @@
 		</if>
 	</select>
 	
+	<update id="viewCnt" parameterType="int">
+		update
+			tbl_board
+		set
+			viewCnt = viewCnt +1
+		where 
+			bno = #{bno}
+	</update>
+	
+	
 	<!-- 댓글 리스트 -->
 	<select id="boardReplyList" resultType="com.board.domain.BoardReplyVO" parameterType="int">
 		select
@@ -120,8 +130,7 @@
 			parent_id,
 			depth,
 			reply_content,
-			reply_writer,
-			reply_password
+			reply_writer
 		from 
 			board_reply
 		where 
@@ -137,14 +146,14 @@
 			depth,
 			reply_content,
 			reply_writer,
-			reply_password
+			student_id
 		)values(
 			#{board_bno},
 			#{parent_id},
 			#{depth},
 			#{reply_content},
 			#{reply_writer},
-			#{reply_password}
+			#{student_id}
 		)
 	</insert>
 	
@@ -155,7 +164,7 @@
 			board_reply
 		where
 			reply_id = #{reply_id}
-			and reply_password = #{reply_password}
+			and student_id = #{student_id}
 	</delete>
 	
 	<!-- 대댓글까지 삭제 -->
@@ -174,7 +183,7 @@
                     board_reply
                 where
                     reply_id = #{reply_id}
-                    and reply_password = #{reply_password}) a
+                    and student_id = #{student_id}) a
             ) or parent_id in (
                 select
                     reply_id
@@ -185,7 +194,7 @@
                     board_reply
                 where
                     reply_id = #{reply_id}
-                    and reply_password = #{reply_password}) a
+                    and student_id=#{student_id}) a
             )
     </delete>
 	<!-- 댓글 수정 -->
@@ -193,23 +202,23 @@
 		update
 			board_reply
 		set 
-			parent_id = #{parant_id},
+			parent_id = #{parent_id},
 			depth = #{depth},
 			reply_content = #{reply_content},
 			reply_writer = #{reply_writer},
-			reply_password = #{reply_password}
+			student_id = #{student_id}
 		where
 			reply_id = #{reply_id}
 	</update>
 	
 	<!-- 댓글 패스워드 확인 -->
-	<select id="selectReplyPassword" resultType="int" parameterType="java.util.HashMap">
+	<select id="selectReplyStudent_id" resultType="int" parameterType="java.util.HashMap">
         select
             count(*)
         from
             board_reply
         where
             reply_id = #{reply_id}
-            and reply_password = #{reply_password}
+            and student_id = #{student_id}
 	</select>
 </mapper>

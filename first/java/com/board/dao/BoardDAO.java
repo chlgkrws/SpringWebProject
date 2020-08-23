@@ -17,7 +17,7 @@ public interface BoardDAO {
 	public BoardVO view(int bno) throws Exception;
 	
 	//게시물 수정
-	public void modify(BoardVO vo) throws Exception;
+	public int modify(Map<String, Object> paramMap) throws Exception;
 	
 	//게시물 삭제
 	public void delete(int bno) throws Exception;
@@ -34,6 +34,9 @@ public interface BoardDAO {
 	
 	//게시물 총 갯수 + 검색 적용
 	public int searchCount(String searchType, String keyword) throws Exception;
+	
+	// 게시물 조회수
+		public void viewCnt(int bno) throws Exception;
 	
 	//댓글 리스트
 	public List<BoardReplyVO> getReplyList(int bno)throws Exception;

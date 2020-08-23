@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.board.domain.BoardVO;
 import com.board.domain.Page;
@@ -48,7 +49,7 @@ public class BoardController {
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> postWrite(@RequestParam Map<String, Object> paramMap, HttpServletRequest request) throws Exception {
-		log.info(request.getRemoteAddr()+ "에서 "+paramMap.get("writer") +"님이 글을 작성했습니다.");
+		
 		int result = service.write(paramMap);
 		
 		Map<String, Object> retVal = new HashMap<String, Object>();
@@ -56,37 +57,72 @@ public class BoardController {
 		if(result > 0) {
 			retVal.put("code", "OK");
 			retVal.put("message", "게시물을 업로드했습니다.");
+			log.info(request.getRemoteAddr()+ "에서 "+paramMap.get("writer") +"님이"+paramMap.get("title")+" 글을 작성했습니다.");
 		}else {
 			retVal.put("code", "FAIL");
 			retVal.put("message", "게시물을 업로드하지 못했습니다.");
+			log.info(request.getRemoteAddr()+ "에서 "+paramMap.get("writer") +"님이"+paramMap.get("title")+ " 작성을 실패했습니다.");
 		}
 		return retVal;
 	}
 
 	// 게시물 조회
 	@RequestMapping(value = "/view", method = RequestMethod.GET)
-	public void getView(@RequestParam("bno") int bno, Model model) throws Exception {
+	public void getView(@RequestParam("bno") int bno, Model model, HttpServletRequest request) throws Exception {
 		BoardVO vo = service.view(bno);
-		
+		service.viewCnt(bno);	//조회수 증가
 		// 댓글
+		
+		if(request.getUserPrincipal().getName().equals(vo.getStudent_id())) {
+			model.addAttribute("writer", "YES");
+		}
 		model.addAttribute("view", vo);
 		model.addAttribute("replyList", service.getReplyList(bno));
+		log.info(bno+"글에 "+request.getRemoteUser()+"님이 "+request.getRemoteAddr()+"에서 조회했습니다.");
+		
 	}
 
 	// 게시물 수정
 	@RequestMapping(value = "/modify", method = RequestMethod.GET)
-	public void getModify(@RequestParam int bno, Model model) throws Exception {
+	public ModelAndView getModify(@RequestParam int bno, ModelAndView model, HttpServletRequest request) throws Exception {
 		BoardVO vo = service.view(bno);
-		model.addAttribute("view", vo);
+		/* model.addAttribute("view", vo) */;
+		
+		ModelAndView mv = new ModelAndView();
+		// /modify url로 접근했을 때 본인이 아니면 막는 로직
+		if(!vo.getStudent_id().equals(request.getUserPrincipal().getName())) {
+			System.out.println("bug");
+			mv.setViewName("/board/view?bno="+bno);
+			return mv;
+		}
+		
+		mv.addObject("view", vo);			//vo
+		mv.addObject("modify", "YES");		//수정인지 아닌지 체크
+		mv.addObject("bno", bno);			//글 번호
+		mv.setViewName("/board/write");
+		
+		return mv;
 	}
 
 	// 게시물 수정
 	@RequestMapping(value = "/modify", method = RequestMethod.POST)
-	public String postModify(BoardVO vo) throws Exception {
-		System.out.println(vo.toString());
-		service.modify(vo);
-
-		return "redirect:/board/view?bno=" + vo.getBno();
+	@ResponseBody
+	public Map<String, Object> postModify(@RequestParam Map<String, Object>paramMap, @RequestParam int bno, HttpServletRequest request) throws Exception {
+		Map<String, Object> retVal = new HashMap<String, Object>();
+		
+		paramMap.put("bno", bno);
+		int result = service.modify(paramMap);
+		if(result > 0) {
+			retVal.put("code", "OK");
+			retVal.put("message", "게시물을 수정했습니다.");
+			log.info(request.getRemoteAddr()+ "에서 "+paramMap.get("writer") +"님이("+bno+")"+paramMap.get("title")+" 글을 수정했습니다.");
+		}else {
+			retVal.put("code", "FAIL");
+			retVal.put("message", "게시물을 수정하지 못했습니다.");
+			log.info(request.getRemoteAddr()+ "에서 "+paramMap.get("writer") +"님이("+bno+")"+paramMap.get("title")+ " 수정을 실패했습니다.");
+		}
+		return retVal;
+		
 	}
 
 	// 게시물 삭제
@@ -141,15 +177,17 @@ public class BoardController {
 	// 댓글 등록  (ajax)
 	@RequestMapping(value = "/reply/save", method = RequestMethod.POST)
 	@ResponseBody
-	public Object boardReplySave(@RequestParam Map<String, Object> paramMap) {
+	public Object boardReplySave(@RequestParam Map<String, Object> paramMap,HttpServletRequest request) {
 		// 호출한 곳에 response
 		Map<String, Object> retVal = new HashMap<String, Object>();
 		//System.out.println("hi");
 
 		// 패스워드 암호화
-		ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
-		String password = encoder.encodePassword(paramMap.get("reply_password").toString(), null);
-		paramMap.put("reply_password", password);
+		/*
+		 * ShaPasswordEncoder encoder = new ShaPasswordEncoder(256); String password =
+		 * encoder.encodePassword(paramMap.get("reply_password").toString(), null);
+		 * paramMap.put("reply_password", password);
+		 */
 
 		int result = service.regReply(paramMap);
 
@@ -157,12 +195,14 @@ public class BoardController {
 		if (result > 0) {
 			retVal.put("code", "OK");
 			retVal.put("reply_id", paramMap.get("reply_id"));
-			System.out.println(retVal.get("reply_id"));
 			retVal.put("parant_id", paramMap.get("parent_id"));
 			retVal.put("message", "등록에 성공 하였습니다.");
+			log.info(paramMap.get("board_bno")+"번 글에서 "+paramMap.get("student_id")+"님이 reply_id: " +paramMap.get("reply_id")+"번 댓글을 등록했습니다. ip = "+request.getRemoteAddr());
 		} else {
 			retVal.put("code", "FAIL");
 			retVal.put("message", "등록에 실패 했습니다.");
+			log.info(paramMap.get("board_bno")+"번 글에서 "+paramMap.get("student_id")+"님이 reply_id: " +paramMap.get("reply_id")+"번 댓글 등록에 실패했습니다.. ip = "+request.getRemoteAddr());
+
 		}
 
 		return retVal;
@@ -171,47 +211,51 @@ public class BoardController {
 	// 댓글 삭제 (ajax)
 	@RequestMapping(value = "/reply/del", method = RequestMethod.POST)
 	@ResponseBody
-	public Object boardReplyDel(@RequestParam Map<String, Object> paramMap) {
+	public Object boardReplyDel(@RequestParam Map<String, Object> paramMap, HttpServletRequest request) {
 		//System.out.println(paramMap.get("reply_password").toString());
 		//System.out.println(paramMap.get("reply_id".toString()));
-		
 		
 		// 리턴값
 		Map<String, Object> retVal = new HashMap<String, Object>();
 		
-		
-		// 패스워드 암호화
-		ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
-		String password = encoder.encodePassword(paramMap.get("reply_password").toString(), null);
-		
-		paramMap.put("reply_password", password);
+		/*
+		 * // 패스워드 암호화 ShaPasswordEncoder encoder = new ShaPasswordEncoder(256); String
+		 * password = encoder.encodePassword(paramMap.get("reply_password").toString(),
+		 * null);
+		 * 	paramMap.put("reply_password", password);
+		 */
 
 		// 정보입력
 		int result = service.delReply(paramMap);
 		
 		if (result > 0) {
 			retVal.put("code", "OK");
+			log.info(paramMap.get("board_bno")+"번 글에서 "+paramMap.get("student_id")+"님이 reply_id: " +paramMap.get("reply_id")+"번 댓글을 삭제했습니다. ip = "+request.getRemoteAddr());
+
 		} else {
 			retVal.put("code", "FAIL");
-			retVal.put("message", "삭제에 실패했습니다. 패스워드를 확인해주세요.");
+			retVal.put("message", "삭제에 실패했습니다. 자신의 댓글인지 확인해 주세요.");
+			log.info(paramMap.get("board_bno")+"번 글에서 "+paramMap.get("student_id")+"님이 reply_id: " +paramMap.get("reply_id")+"번 댓글 삭제에 실패했습니다. ip = "+request.getRemoteAddr());
+
 		}
 
 		return retVal;
 	}
 	
-	//댓글 수정	(ajax)
+	//댓글 수정(ajax)
 	@RequestMapping(value = "/reply/update", method = RequestMethod.POST)
 	@ResponseBody
-	public Object boardReplyUpdate(@RequestParam Map<String, Object> paramMap) {
+	public Object boardReplyUpdate(@RequestParam Map<String, Object> paramMap, HttpServletRequest request) {
 		//리턴값
         Map<String, Object> retVal = new HashMap<String, Object>();
  
         //패스워드 암호화
-        ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
-        String password = encoder.encodePassword(paramMap.get("reply_password").toString(), null);
-        paramMap.put("reply_password", password);
- 
-        System.out.println(paramMap);
+		/*
+		 * ShaPasswordEncoder encoder = new ShaPasswordEncoder(256); String password =
+		 * encoder.encodePassword(paramMap.get("reply_password").toString(), null);
+		 * paramMap.put("reply_password", password);
+		 */
+       // System.out.println(paramMap);
  
         //정보입력
         boolean check = service.updateReply(paramMap);
@@ -220,26 +264,30 @@ public class BoardController {
             retVal.put("code", "OK");
             retVal.put("reply_id", paramMap.get("reply_id"));
             retVal.put("message", "수정에 성공 하였습니다.");
+            log.info(paramMap.get("board_bno")+"번 글에서 "+paramMap.get("student_id")+"님이 reply_id: " +paramMap.get("reply_id")+"번의 댓글을 수정했습니다. ip = "+request.getRemoteAddr());
         }else{
             retVal.put("code", "FAIL");
             retVal.put("message", "수정에 실패 하였습니다.");
+            log.info(paramMap.get("board_bno")+"번 글에서 "+paramMap.get("student_id")+"님이 reply_id: " +paramMap.get("reply_id")+"번의 댓글 수정을 실패했습니다. ip = "+request.getRemoteAddr());
+
         }
  
         return retVal;
 	}
 	
-	//댓글 패스워드 확인 (ajax)
-	 @RequestMapping(value="/board/reply/check", method=RequestMethod.POST)
+	//댓글 사용자 확인 (ajax)
+	 @RequestMapping(value="/reply/check", method=RequestMethod.POST)
 	    @ResponseBody
 	    public Object boardReplyCheck(@RequestParam Map<String, Object> paramMap) {
 	 
 	        //리턴값
 	        Map<String, Object> retVal = new HashMap<String, Object>();
 	 
-	        //패스워드 암호화
-	        ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
-	        String password = encoder.encodePassword(paramMap.get("reply_password").toString(), null);
-	        paramMap.put("reply_password", password);
+			/*
+			 * //패스워드 암호화 ShaPasswordEncoder encoder = new ShaPasswordEncoder(256); String
+			 * password = encoder.encodePassword(paramMap.get("reply_password").toString(),
+			 * null); paramMap.put("reply_password", password);
+			 */
 	 
 	        //정보입력
 	        boolean check = service.checkReply(paramMap);
@@ -249,7 +297,7 @@ public class BoardController {
 	            retVal.put("reply_id", paramMap.get("reply_id"));
 	        }else{
 	            retVal.put("code", "FAIL");
-	            retVal.put("message", "패스워드를 확인해 주세요.");
+	            retVal.put("message", "자신의 댓글만 수정할 수 있습니다.");
 	        }
 	 
 	        return retVal;

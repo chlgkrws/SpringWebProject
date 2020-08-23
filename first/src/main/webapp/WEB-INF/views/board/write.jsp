@@ -17,26 +17,28 @@
 <title>게시물 작성</title>
 </head>
 <body>
+<sec:authorize access="isAuthenticated()">
+	<p><sec:authentication property="principal.student_name" var="principal_name"></sec:authentication></p>
+</sec:authorize>
+<sec:authorize access="isAuthenticated()">
+	<p><sec:authentication property="principal.username" var="principal_id"></sec:authentication></p>
+</sec:authorize>
 
-
-		<label>제목</label> <input type="text" name="title" id="title" /><br />
+		<label>제목</label> <input type="text" name="title" id="title" value="${view.title }"/><br />
 		
 		<label>작성자</label>
-		<div>
-		<sec:authorize access="isAuthenticated()">
-	<p><sec:authentication property="principal.student_name"></sec:authentication></p>
-	</sec:authorize>
-	</div>
-		<sec:authorize access="isAuthenticated()">
-	<p><sec:authentication property="principal.student_name" var="principal_name"></sec:authentication></p>
-	</sec:authorize>
+		${principal_name }
+		
 		
 		<label>내용</label>
-		<textarea rows="5" cols="50" name="content" id="content"></textarea>
+		<textarea rows="5" cols="50" name="content" id="content">${view.content }</textarea>
 		<br />
-
-		<button type="submit" id="save" name="save">작성</button>
-
+		
+		<button type="submit" id="save" name="save">
+		<c:if test="${modify == null}">작성</c:if>
+		<c:if test="${modify != null}">완료</c:if>
+		</button>
+		
 		<div id="nav">
 			<%@ include file="../include/nav.jsp"%>
 		</div>
@@ -47,6 +49,7 @@
 		</div>
 		<div>
 			<input type="hidden" name="principal_name" id="principal_name" value="${principal_name }">
+			<input type="hidden" name="principal_id" id="principal_id" value="${principal_id }">
 		</div>
 		
 	
@@ -64,6 +67,14 @@
                     //에디터 내용 가져옴
                     var content = CKEDITOR.instances.content.getData();
                     var writer = $("#principal_name").val();		//권한가진 유저의 이름가져오기
+                    var student_id = $('#principal_id').val();
+					var url = "";
+					if("${modify}" == null){
+						url = "/board/write"
+					}else{
+						url ="/board/modify?bno="+"${bno}"
+					}
+
                     //널 검사
                     if($("#title").val().trim() == ""){
                         alert("제목을 입력하세요.");
@@ -80,14 +91,16 @@
                     
                     //값 셋팅
                     var objParams = {
+                    	   
                            title     : $("#title").val(),
                            writer :  writer,
-                           content     : content
+                           content     : content,
+                           student_id : student_id
                     };
                      
                     //ajax 호출
                     $.ajax({
-                        url         :   "/board/write",
+                        url         :   url,
                         dataType    :   "json",
                         contentType :   "application/x-www-form-urlencoded; charset=UTF-8",
                         type        :   "post",

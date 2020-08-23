@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -32,7 +33,7 @@ public class SignController {
 	
 	@RequestMapping(value = "/signUp", method = RequestMethod.POST)
 	@ResponseBody
-	public Object postSignUp(@RequestParam Map<String, Object> paramMap) {
+	public Object postSignUp(@RequestParam Map<String, Object> paramMap, HttpServletRequest request) {
 		
 		
 		Map<String, Object> retVal = new HashMap<String, Object>();
@@ -55,6 +56,7 @@ public class SignController {
 		if(!signedCheck) {
 			retVal.put("code", "FAIL");
 			retVal.put("message","학번과 이름이 일치하지 않거나 이미 회원가입한 학생입니다.");
+			log.info(paramMap.get("student_id") + "("+paramMap.get("student_name")+")님이 "+request.getRemoteAddr()+"에서 회원가입에 실패했습니다.(1)");
 			return retVal;
 		}
 		
@@ -63,9 +65,11 @@ public class SignController {
 		if(check) {
 			retVal.put("code", "OK");
 			retVal.put("message", "회원가입이 성공적으로 끝났습니다.");
+			log.info(paramMap.get("student_id") + "("+paramMap.get("student_name")+")님이 "+request.getRemoteAddr()+"에서 회원가입했습니다.");
 		}else {
 			retVal.put("code", "FAIL");
 			retVal.put("message", "학번과 이름이 일치하지 않거나 존재하지 않는 회원입니다.");
+			log.info(paramMap.get("student_id") + "("+paramMap.get("student_name")+")님이 "+request.getRemoteAddr()+"에서 회원가입에 실패했습니다.(2)");
 		}
 		
 		return retVal;
