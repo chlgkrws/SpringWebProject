@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        
+        <title>게시판</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/reset.css">
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+        <div id="nav">
+		<%@ include file="../include/nav.jsp"%>
+		</div>
+		
+        <div id="wrapper">
+            <div id="container">
+                <div class="side-menu">
+                    <p class="main-title">선택메뉴</p>
+                    <ul class="category">
+                        <li>
+                            <a class="" href="#">
+                                메뉴1
+                            </a>
+                        </li>
+                        <li>
+                            <a class="" href=" #">
+                                메뉴2
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="search">
+                        <input type="text" class="submit" placeholder="검색어를 입력하세요." >
+                        <a href="#">검색</a>
+                    </div>
+                </div>
+
+                
+                <!--side menu-->
+
+                <div class="board-list">
+                    <h2 id="container_title">선택된 카테고리</span></h2>
+                <span class="path">홈 > 선택메뉴 > 세부선택메뉴</span>
+                <!-- 게시판 목록 시작 { -->
+                <div class="tbl_wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th scope="col" class="td_num">번호</th>
+                                <th scope="col" class="td_subject">제목</th>
+                                <th scope="col" class="td_name">글쓴이</th>
+                                <th scope="col" class="td_date">
+                                    <a href="#" >날짜</a>
+                                </th>
+                                <th scope="col" class="td_num">
+                                    <a href="#">조회</a>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td >
+                                    1
+                                </td>
+                                <td >
+                                    <a href="#">
+                                        [공지] 2020학년도 수강신청 일정표
+                                    </a>
+                                </td>
+                                <td >
+                                    <span >이재근</span></td>
+                                <td >20-08-26</td>
+                                <td >955</td>
+                            </tr>
+                            <tr>
+                                <td >
+                                    2
+                                </td>
+                                <td >
+                                    <a href="#">
+                                        [공지] 창의융합대학 공통 졸업요건
+                                    </a>
+                                </td>
+                                <td >
+                                    <span >최학준</span></td>
+                                <td >20-08-26</td>
+                                <td >95</td>
+                            </tr>
+                            <tr>
+                                <td >
+                                    3
+                                </td>
+                                <td >
+                                    <a href="#">
+                                        [공지] 융합IT학부 졸업요건
+                                    </a>
+                                </td>
+                                <td >
+                                    <span >이재근</span></td>
+                                <td >20-08-26</td>
+                                <td >53</td>
+                            </tr>
+                            <tr>
+                                <td >
+                                    4
+                                </td>
+                                <td >
+                                    <a href="#">
+                                        장학금 관련 꿀팁
+                                    </a>
+                                </td>
+                                <td >
+                                    <span >최학준</span></td>
+                                <td >20-08-26</td>
+                                <td >1275</td>
+                            </tr>
+                            <tr>
+                                <td >
+                                    5
+                                </td>
+                                <td >
+                                    <a href="#">
+                                        [자료구조] 질문있어요~ 
+                                    </a>
+                                </td>
+                                <td >
+                                    <span >익명</span></td>
+                                <td >20-08-26</td>
+                                <td >32</td>
+                            </tr>
+                            <tr>
+                                <td >
+                                    6
+                                </td>
+                                <td >
+                                    <a href="#">
+                                        [자격증] 정처기 꿀팁
+                                    </a>
+                                </td>
+                                <td >
+                                    <span >최학준</span></td>
+                                <td >20-08-26</td>
+                                <td >12345</td>
+                            </tr>
+                            <tr>
+                                <td >
+                                    7
+                                </td>
+                                <td >
+                                    <a href="#">
+                                        같이 코드 공부하실분!
+                                    </a>
+                                </td>
+                                <td >
+                                    <span >코드잇</span></td>
+                                <td >20-08-26</td>
+                                <td >5</td>
+                            </tr>
+                            <tr>
+                                <td >
+                                    8
+                                </td>
+                                <td >
+                                    <a href="#">
+                                        [파이썬] 전공서적 쓰실분
+                                    </a>
+                                </td>
+                                <td >
+                                    <span >최학준</span></td>
+                                <td >20-08-26</td>
+                                <td >125</td>
+                            </tr>
+                            <tr>
+                                <td >
+                                    9
+                                </td>
+                                <td >
+                                    <a href="#">
+                                        봉사시간 다 못채우신분
+                                    </a>
+                                </td>
+                                <td >
+                                    <span >익명</span></td>
+                                <td >20-08-26</td>
+                                <td >145</td>
+                            </tr>
+                            <tr>
+                                <td >
+                                    10
+                                </td>
+                                <td >
+                                    <a href="#">
+                                        이 코드 피드백 해주실 수 있으신분 계신가요?ㅜㅜ
+                                    </a>
+                                </td>
+                                <td >
+                                    <span >익명</span></td>
+                                <td >20-08-26</td>
+                                <td >45</td>
+                            </tr>
+                            </tbody>
+                    </table>
+                </div>
+                <!--board-list-->
+
+                <nav class="pg_wrap">
+                    <div class="pagination">
+                        <ul class="pg_page">
+                            <li><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li><a href="#">6</a></li>
+                            <li><a href="#">7</a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+            <!--container-->
+        </div>
+        <!--wrapper-->
+    </body>
+</html>

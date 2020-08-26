@@ -33,8 +33,8 @@ public class BoardServiceImpl implements BoardService {
 
 	// 게시물 조회
 	@Override
-	public BoardVO view(int bno) throws Exception {
-		return dao.view(bno);
+	public BoardVO view(int bno, String boardType, String listType) throws Exception {
+		return dao.view(bno,  boardType,  listType);
 	}
 
 	// 게시물 수정
@@ -45,8 +45,8 @@ public class BoardServiceImpl implements BoardService {
 
 	// 게시글 삭제
 	@Override
-	public void delete(int bno) throws Exception {
-		dao.delete(bno);
+	public void delete(int bno,String boardType, String listType) throws Exception {
+		dao.delete(bno, boardType, listType);
 	}
 	// 게시글 카운트
 	public int count() throws Exception {
@@ -60,22 +60,22 @@ public class BoardServiceImpl implements BoardService {
 	}
 	//리스트 페이지 서치
 	@Override
-	public List<BoardVO> listPageSearch(int displayPost, int postNum, String searchType, String keyword)
+	public List<BoardVO> listPageSearch(int displayPost, int postNum, String searchType, String keyword, String boardT, String listT)
 			throws Exception {
 
-		return dao.listPageSearch(displayPost, postNum, searchType, keyword);
+		return dao.listPageSearch(displayPost, postNum, searchType, keyword,boardT, listT);
 	}
 
 	// 게시물 총 갯수
 	@Override
-	public int searchCount(String searchType, String keyword) throws Exception {
-		return dao.searchCount(searchType, keyword);
+	public int searchCount(String searchType, String keyword, String boardT, String listT) throws Exception {
+		return dao.searchCount(searchType, keyword, boardT, listT);
 	}
 
 	// 댓글 리스트
 	@Override
-	public List<BoardReplyVO> getReplyList(int bno) throws Exception {
-		List<BoardReplyVO> boardReplyList = dao.getReplyList(bno);
+	public List<BoardReplyVO> getReplyList(int bno, String  boardType, String listType) throws Exception {
+		List<BoardReplyVO> boardReplyList = dao.getReplyList(bno, boardType, listType);
 		
 
 		if (!boardReplyList.isEmpty()) {
@@ -136,8 +136,8 @@ public class BoardServiceImpl implements BoardService {
     }
 
 	@Override
-	public void viewCnt(int bno) throws Exception {
-		dao.viewCnt(bno);
+	public void viewCnt(int bno, String  boardType, String listType) throws Exception {
+		dao.viewCnt(bno,  boardType, listType);
 		
 	}
 

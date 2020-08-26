@@ -34,6 +34,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler{
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
+		student_id = request.getRemoteUser();
 		student_name = service.selectName(student_id);
 		
 		List<String> roleNames = new ArrayList<String>();
@@ -45,14 +46,18 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler{
 		if(roleNames.contains("ROLE_ADMIN")) {
 			request.getSession().setAttribute("student_name", student_name);
 			request.getSession().setAttribute("student_id", student_id);
+			request.setAttribute("student_name", student_name);
+			request.setAttribute("student_id", student_id);
 			resultRedirectStrategy(request, response, authentication);
-
+			
 			return;
 		}
 		
 		if(roleNames.contains("ROLE_MEMBER")) {
 			request.getSession().setAttribute("student_name", student_name);
 			request.getSession().setAttribute("student_id", student_id);
+			request.setAttribute("student_name", student_name);
+			request.setAttribute("student_id", student_id);
 			resultRedirectStrategy(request, response, authentication);
 
 			return;
@@ -72,7 +77,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler{
 	            String targetUrl = savedRequest.getRedirectUrl();
 	            redirectStratgy.sendRedirect(request, response, targetUrl);
 	        } else {
-	            redirectStratgy.sendRedirect(request, response, "/board/listPageSearch?num=1");
+	            redirectStratgy.sendRedirect(request, response, "/");
 	        }
 	        
 	    }

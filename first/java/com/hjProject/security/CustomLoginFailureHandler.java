@@ -22,7 +22,7 @@ public class CustomLoginFailureHandler implements AuthenticationFailureHandler {
 		String errormsg = exception.getMessage();
 		
 		request.setAttribute(student_id, username);
-		request.setAttribute(student_password, password);
+		//request.setAttribute(student_password, password);
 		request.setAttribute("ERRORMSG", errormsg);
 		
 		request.getRequestDispatcher(defaultFailureUrl).forward(request, response);

@@ -1,6 +1,8 @@
 package com.hjProject.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +25,7 @@ import com.board.domain.Page;
 import com.board.service.BoardService;
 
 @Controller
+@Scope("session")
 @RequestMapping("/board/*")
 public class BoardController {
 	private Logger log = LoggerFactory.getLogger(BoardController.class);
@@ -41,14 +44,23 @@ public class BoardController {
 
 	// 게시물 작성
 	@RequestMapping(value = "/write", method = RequestMethod.GET)
-	public void getWrite() throws Exception {
+	public void getWrite(@RequestParam(value = "boardType",required = false, defaultValue = "") String boardType,
+			@RequestParam(value = "listType", required = false, defaultValue = "") String listType, Model model) throws Exception {
 		
+		model.addAttribute("boardType", boardType);
+		model.addAttribute("listType", listType);
 	}
 
 	// 게시물 작성
 	@RequestMapping(value = "/write", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> postWrite(@RequestParam Map<String, Object> paramMap, HttpServletRequest request) throws Exception {
+	public Map<String, Object> postWrite(@RequestParam Map<String, Object> paramMap,
+			@RequestParam(value = "boardType",required = false, defaultValue = "") String boardType,
+			@RequestParam(value = "listType", required = false, defaultValue = "") String listType,
+			HttpServletRequest request) throws Exception {
+		
+		paramMap.put("boardType", boardType);
+		paramMap.put("listType", listType);
 		
 		int result = service.write(paramMap);
 		
@@ -68,49 +80,70 @@ public class BoardController {
 
 	// 게시물 조회
 	@RequestMapping(value = "/view", method = RequestMethod.GET)
-	public void getView(@RequestParam("bno") int bno, Model model, HttpServletRequest request) throws Exception {
-		BoardVO vo = service.view(bno);
-		service.viewCnt(bno);	//조회수 증가
+	public void getView(@RequestParam("bno") int bno, Model model, 
+						@RequestParam(value = "boardType",required = false, defaultValue = "") String boardType,
+						@RequestParam(value = "listType", required = false, defaultValue = "") String listType,
+						HttpServletRequest request) throws Exception {
+		
+		BoardVO vo = service.view(bno, boardType, listType);
+		service.viewCnt(bno, boardType, listType);	//조회수 증가
 		// 댓글
 		
 		if(request.getUserPrincipal().getName().equals(vo.getStudent_id())) {
 			model.addAttribute("writer", "YES");
 		}
 		model.addAttribute("view", vo);
-		model.addAttribute("replyList", service.getReplyList(bno));
-		log.info(bno+"글에 "+request.getRemoteUser()+"님이 "+request.getRemoteAddr()+"에서 조회했습니다.");
+		model.addAttribute("replyList", service.getReplyList(bno, boardType, listType));
+		model.addAttribute("boardType",boardType);
+		model.addAttribute("listType",listType);
+		
+		log.info(boardType+"메뉴 "+listType+"인 리스트에서 "+ bno+"번 째 글에 "+request.getRemoteUser()+"님이 "+request.getRemoteAddr()+"에서 조회했습니다.");
 		
 	}
 
 	// 게시물 수정
 	@RequestMapping(value = "/modify", method = RequestMethod.GET)
-	public ModelAndView getModify(@RequestParam int bno, ModelAndView model, HttpServletRequest request) throws Exception {
-		BoardVO vo = service.view(bno);
+	public ModelAndView getModify(@RequestParam int bno,
+				@RequestParam(value = "boardType",required = false, defaultValue = "") String boardType,
+				@RequestParam(value = "listType", required = false, defaultValue = "") String listType,
+				ModelAndView model, HttpServletRequest request) throws Exception {
+		
+		BoardVO vo = service.view(bno,  boardType, listType);
 		/* model.addAttribute("view", vo) */;
 		
 		ModelAndView mv = new ModelAndView();
 		// /modify url로 접근했을 때 본인이 아니면 막는 로직
 		if(!vo.getStudent_id().equals(request.getUserPrincipal().getName())) {
 			System.out.println("bug");
-			mv.setViewName("/board/view?bno="+bno);
+			mv.setViewName("/");
 			return mv;
 		}
 		
 		mv.addObject("view", vo);			//vo
 		mv.addObject("modify", "YES");		//수정인지 아닌지 체크
 		mv.addObject("bno", bno);			//글 번호
+		mv.addObject("boardType", boardType);
+		mv.addObject("listType",listType);
 		mv.setViewName("/board/write");
-		
+		//?boardType="+boardType+"listType"+listType
 		return mv;
 	}
 
 	// 게시물 수정
 	@RequestMapping(value = "/modify", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> postModify(@RequestParam Map<String, Object>paramMap, @RequestParam int bno, HttpServletRequest request) throws Exception {
+	public Map<String, Object> postModify(@RequestParam Map<String, Object>paramMap, 
+			@RequestParam int bno,
+			@RequestParam(value = "boardType",required = false, defaultValue = "") String boardType,
+			@RequestParam(value = "listType", required = false, defaultValue = "") String listType,
+			HttpServletRequest request) throws Exception {
+		
 		Map<String, Object> retVal = new HashMap<String, Object>();
 		
 		paramMap.put("bno", bno);
+		paramMap.put("boardType",boardType);
+		paramMap.put("listType", listType);
+		System.out.println(boardType+ " 123123"+listType);
 		int result = service.modify(paramMap);
 		if(result > 0) {
 			retVal.put("code", "OK");
@@ -127,10 +160,13 @@ public class BoardController {
 
 	// 게시물 삭제
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public String getDelete(@RequestParam("bno") int bno) throws Exception {
-
-		service.delete(bno);
-		return "redirect:/board/list";
+	public String getDelete(@RequestParam("bno") int bno,
+			@RequestParam(value = "boardType",required = false, defaultValue = "") String boardType,
+			@RequestParam(value = "listType", required = false, defaultValue = "") String listType, HttpServletRequest request) throws Exception {
+		
+		service.delete(bno, boardType, listType);
+		log.info(request.getRemoteUser()+"님이 "+request.getRemoteAddr()+"에서 "+boardType+"타입의 "+listType+"리스트 중 "+ bno+"번 째 게시물을 삭제했습니다.");
+		return "redirect:/board/listPageSearch?num=1&boardType=board&listType=free";
 	}
 
 	// 게시물 목록 + 페이징 추가
@@ -144,9 +180,7 @@ public class BoardController {
 		List<BoardVO> list = null;
 		list = service.listPage(page.getDisplayPost(), page.getPostNum());
 		model.addAttribute("list", list);
-
 		model.addAttribute("page", page);
-
 		model.addAttribute("select", num);
 	}
 
@@ -154,24 +188,76 @@ public class BoardController {
 	@RequestMapping(value = "/listPageSearch", method = RequestMethod.GET)
 	public void getListPageSearch(Model model, @RequestParam("num") int num,
 			@RequestParam(value = "searchType", required = false, defaultValue = "title") String searchType,
-			@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword) throws Exception {
-
+			@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
+			@RequestParam(value = "boardType",required = false, defaultValue = "") String boardType,
+			@RequestParam(value = "listType", required = false, defaultValue = "") String listType,
+			HttpServletRequest request) throws Exception {
+		String boardT = boardType;
+		String listT = listType;
+		
+		//선택메뉴를 위한 ArrayList
+		ArrayList<String[]> listMenu = new ArrayList<>();
+		ArrayList<String> resultMenu = new ArrayList<>();
+		LinkedHashMap<String, String> hm = new LinkedHashMap<String, String>();
+		
+		String[] menuEn = {"notice", "tip","free","study","qna","share"};
+		String[] menuKo = {"공지사항","졸업&수업 꿀팁", "자유게시판", "수업게시판","Q&A","전공 책 나눔"};
+		
+		
+		listMenu.add(new String[] {"notice", "tip"});
+		listMenu.add(new String[] {"free", "study","qna"});
+		listMenu.add(new String[] {"share"});
+		
+		//해당 리스트에 보드에 어떤 리스트들이 있는지 찾는 로직
+		for(int i = 0; i < listMenu.size(); i++) {
+			for(int j = 0; j < listMenu.get(i).length; j++) {
+				if(listMenu.get(i)[j].equals(listType)) {
+					j = 0;
+					for(int q = 0; q < listMenu.get(i).length; q++) {
+						resultMenu.add(listMenu.get(i)[j++]);
+					}
+				}
+			}
+		}
+		
+		for(int i = 0; i < resultMenu.size(); i++) {
+			for(int j = 0; j < menuEn.length; j++) {
+				if(resultMenu.get(i).equals(menuEn[j])) {
+					hm.put(menuEn[j], menuKo[j]);
+				}
+			}
+		}
+		
+		
+		
+		
 		Page page = new Page();
 		page.setNum(num);
 		// page.setCount(service.count());
-		page.setCount(service.searchCount(searchType, keyword));
+		page.setCount(service.searchCount(searchType, keyword, boardT, listT));
 		page.setSearchType(searchType);
 		page.setKeyword(keyword);
+		page.setBoardType(boardT);
+		page.setListType(listT);
 
 		List<BoardVO> list = null;
-		list = service.listPageSearch(page.getDisplayPost(), page.getPostNum(), searchType, keyword);
-
+		list = service.listPageSearch(page.getDisplayPost(), page.getPostNum(), searchType, keyword, boardT, listT);
+		
+		model.addAttribute("listMenu",hm);
 		model.addAttribute("list", list);
 		model.addAttribute("page", page);
 		model.addAttribute("select", num);
 
 		model.addAttribute("searchType", searchType);
 		model.addAttribute("keyword", keyword);
+		model.addAttribute("boardType", boardType);
+		model.addAttribute("listType", listType);
+		
+		if(request.getRemoteUser() == null) {
+			log.info(request.getRemoteAddr()+"에서 "+boardT+"타입의 "+listT+"리스트를 조회했습니다.");
+		}else {
+			log.info(request.getRemoteUser()+"님이 "+request.getRemoteAddr()+"에서 "+boardT+"타입의 "+listT+"리스트를 조회했습니다.");
+		}
 	}
 
 	// 댓글 등록  (ajax)

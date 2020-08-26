@@ -50,6 +50,7 @@
 		<div>
 			<input type="hidden" name="principal_name" id="principal_name" value="${principal_name }">
 			<input type="hidden" name="principal_id" id="principal_id" value="${principal_id }">
+			<input type="hidden" name="modifyCheck" id="modifyCheck" value="${modify }">
 		</div>
 		
 	
@@ -58,6 +59,7 @@
      		$(document).ready(function(){
             	var header = $("meta[name='_csrf_header']").attr("content");
                 var token = $("meta[name='_csrf']").attr("content");
+                
                 CKEDITOR.replace( 'content' );
                 CKEDITOR.config.height = 500;
                 
@@ -69,10 +71,11 @@
                     var writer = $("#principal_name").val();		//권한가진 유저의 이름가져오기
                     var student_id = $('#principal_id').val();
 					var url = "";
-					if("${modify}" == null){
-						url = "/board/write"
+					
+					if($("#modifyCheck").val() == ""){
+						url = "/board/write?boardType=${boardType}&listType=${listType}"
 					}else{
-						url ="/board/modify?bno="+"${bno}"
+						url ="/board/modify?bno="+"${bno}&boardType=${boardType}&listType=${listType}"
 					}
 
                     //널 검사
@@ -109,7 +112,7 @@
  
                             if(retVal.code == "OK") {
                                 alert(retVal.message);
-                                location.href = "/board/listPageSearch?num=1";  
+                                location.href = "/board/listPageSearch?num=1&boardType=${boardType}&listType=${listType}";  
                             } else {
                                 alert(retVal.message);
                                 /* location.href = ""; */

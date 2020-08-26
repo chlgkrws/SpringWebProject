@@ -3,6 +3,9 @@
         var token = $("meta[name='_csrf']").attr("content");
         var student_id = $("#principal_id").val();
         var student_name = $("#principal_name").val();
+        var bno = model.bno;
+        var boardType = model.boardType;
+        var listType = model.listType;
 				//댓글 저장
 				$('#reply_save').click(function(){
 					//널 검사
@@ -17,13 +20,14 @@
 
                     var reply_content = $("#reply_content").val().replace("\n","<br>");
                     var objParams = {
-						board_bno : model.bno,
+						board_bno : bno,
 						parent_id : "0",
 						depth 	  : "0",
 						reply_writer : student_name,
 						/*reply_password : $("#reply_password").val(),*/
 						reply_content  : reply_content,
-						student_id	:	$("#principal_id").val()
+						student_id	:	$("#principal_id").val(),
+						listType	: listType
                     };
 
                     var reply_id;
@@ -65,8 +69,8 @@
                         '</tr>';
                         
                     if($('#reply_area').contents().size()==0){
-                    	 $('#reply_area').append(reply);
-                    	 window.location.replace("/board/view?bno="+model.bno);
+                    	$('#reply_area tr:last').after(reply); 
+                    	 //window.location.replace("/board/view?bno="+bno+"&boardType="+boardType+"&listType="+listType);
                     }else{
                         $('#reply_area tr:last').after(reply);
                     }
@@ -88,7 +92,11 @@
 				var check = false;
 				var reply_id = $(this).attr("reply_id");
 				var r_type = $(this).attr("r_type");
+				var result = confirm("댓글을 삭제하시겠습니까?");
 				
+				if(!result) {
+					return;
+				}
 			   
 				//값 셋팅
               	var objParams = {
@@ -101,6 +109,7 @@
 					url		: "/board/reply/del",
 					dataType	:"json",
 					contentType	:"application/x-www-form-urlencoded; charset=UTF-8",
+					async	:false,
 					type		:"post",
 					data		: objParams,
 					success		:function(retVal){
@@ -120,7 +129,6 @@
 				});
 				
 			    if(check){
-                    
                     if(r_type=="main"){//depth가 0이면 하위 댓글 다 지움
                         //삭제하면서 하위 댓글도 삭제
                         var prevTr = $(this).parent().parent().next(); //댓글의 다음
@@ -136,7 +144,8 @@
                     }
                     
                 }
-				window.location.replace("/board/view?bno="+model.bno);
+			    
+				//window.location.replace("/board/view?bno="+bno+"&boardType="+boardType+"&listType="+listType);
 				
 			});//댓글 삭제 끝
 			
@@ -168,7 +177,7 @@
                         success     :   function(retVal){
  
                             if(retVal.code != "OK") {
-                                check = false;//패스워드가 맞으면 체크값을 true로 변경
+                                check = false;
                                 alert(retVal.message);
                             }else{
                                 check = true;
@@ -391,10 +400,10 @@
 			 //대댓글 입력창
                 $(document).on("click","button[name='reply_reply']",function(){ //동적 이벤트
                     
-                    if(status){
-                        alert("수정과 대댓글은 동시에 불가합니다.");
-                        return false;
-                    }
+                    //if(status){
+                     //   alert("수정과 대댓글은 동시에 불가합니다.");
+                     //   return false;
+                    //}
                     
                     status = true;
                     
@@ -459,6 +468,7 @@
                     //값 셋팅
                     var objParams = {
                             board_bno        : model.bno,
+                            listType		:listType,
                             parent_id        : $(this).attr("parent_id"),    
                             depth            : "1",
                             reply_writer    : student_name,

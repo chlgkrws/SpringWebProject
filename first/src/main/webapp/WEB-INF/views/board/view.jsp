@@ -56,15 +56,16 @@ textarea {
 	<div>
 	
 	<c:if test="${writer != null }">
-	 <a href="/board/modify?bno=${view.bno }">게시물 수정</a>, <a
-			href="/board/delete?bno=${view.bno }">게시물 삭제</a>
+	 <a href="/board/modify?bno=${view.bno }&boardType=${boardType}&listType=${listType}">게시물 수정</a>, 
+	 <a href="/board/delete?bno=${view.bno }&boardType=${boardType}&listType=${listType}" >게시물 삭제</a>,
+	 <input type="button" onclick="checkResult()"> 
 	</c:if>
 	</div>
 
 	<p id="bno" name="bno" value="${view.bno }">${view.bno }</p>
 
 	
-	<c:if test="${!replyList.isEmpty()}">
+	<%-- <c:if test="${!replyList.isEmpty()}"> --%>
 		<table border="1" width="1200px" id="reply_area">
 			<tr reply_type="all" style="display: none">
 				<!-- 뒤에 댓글 붙이기 쉽게 선언 -->
@@ -78,7 +79,8 @@ textarea {
 					</td>
 					<td width="100px">${replyList.reply_writer}
 					</td>
-					<td align="center" width="200px"><c:if test="${replyList.depth != '1'}">
+					<td align="center" width="200px">
+						<c:if test="${replyList.depth != '1'}">
 						
 						<button name="reply_reply" parent_id="${replyList.reply_id}"
 								reply_id="${replyList.reply_id}">댓글
@@ -97,7 +99,7 @@ textarea {
 				</tr>
 			</c:forEach>
 			</table>
-	</c:if>
+<%-- 	</c:if> --%>
 	
 	<!-- 댓글등록 -->
 	
@@ -123,6 +125,8 @@ textarea {
 	<script type="text/javascript">
 		var model = [];
 		model.bno = "${view.bno}";
+		model.boardType = "${boardType}";
+		model.listType= "${listType}";
 		
 	</script>
 	<script type="text/javascript"
@@ -130,6 +134,16 @@ textarea {
 	<script src="<c:url value="/resources/js/boardReply.js" />"></script>
 	<!-- 글 수정 -->
 	<script type="text/javascript">
+		//게시물 삭제를 물어보는 부분
+		function checkResult(){
+			var result = confirm("게시물을 정말 삭제하시겠습니까?");
+			
+			if(!result) {
+				return;
+			}else{
+				window.location.replace("/board/delete?bno=${view.bno }&boardType=${boardType}&listType=${listType}");
+			}
+		}
 		/* $(document).ready(function(){
 			var bno = ${view.bno};
 			var writer = ${view.writer};

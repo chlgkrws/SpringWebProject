@@ -14,35 +14,69 @@
 	<!-- 게시물 작성 -->
 	<insert id="write" parameterType="hashMap">
 		insert into
-		tbl_board(title, content, writer,student_id)
-		values(#{title}, #{content}, #{writer}, #{student_id})
+		<if test='boardType.equals("board")'>
+				tbl_board(title, content, writer,student_id,listType)
+			</if>
+			<if test='boardType.equals("school")'>
+				tbl_school(title, content, writer,student_id,listType)
+			</if>
+			<if test='boardType.equals("share")'>
+				tbl_share(title, content, writer,student_id,listType)
+			</if> 
+		values(#{title}, #{content}, #{writer}, #{student_id}, #{listType})
 	</insert>
 
 	<!-- 게시물 조회 -->
-	<select id="view" parameterType="int"
+	<select id="view" parameterType="hashMap"
 		resultType="com.board.domain.BoardVO">
 		select
-		bno, title, content, writer, regDate, viewCnt, student_id
+			bno, title, content, writer, regDate, viewCnt, student_id
 		from
-		tbl_board
+			<if test='boardType.equals("board")'>
+				tbl_board
+			</if>
+			<if test='boardType.equals("school")'>
+				tbl_school
+			</if>
+			<if test='boardType.equals("share")'>
+				tbl_share
+			</if> 
 		where
-		bno = #{bno}
+			bno = #{bno}
 	</select>
 
 	<!-- 게시물 수정 -->
 	<select id="modify" parameterType="hashMap">
-		update tbl_board
+		update 
+			<if test='boardType.equals("board")'>
+				tbl_board
+			</if>
+			<if test='boardType.equals("school")'>
+				tbl_school
+			</if>
+			<if test='boardType.equals("share")'>
+				tbl_share
+			</if> 
 		set
-		title = #{title},
-		content=#{content}
-		
+			title = #{title},
+			content=#{content},
+			listType = #{listType}
 		where bno = #{bno}
 	</select>
 
 	<!-- 게시물 삭제 -->
-	<delete id="delete" parameterType="int">
+	<delete id="delete" parameterType="hashMap">
 		delete
-		from tbl_board
+		from 
+			<if test='boardType.equals("board")'>
+				tbl_board
+			</if>
+			<if test='boardType.equals("school")'>
+				tbl_school
+			</if>
+			<if test='boardType.equals("share")'>
+				tbl_share
+			</if> 
 		where bno = #{bno}
 	</delete>
 
@@ -66,7 +100,17 @@
 		resultType="com.board.domain.BoardVO">
 		select
 		bno, title, writer, regDate, viewCnt
-		from tbl_board
+		from 
+			<if test='boardType.equals("board")'>
+				tbl_board
+			</if>
+			<if test='boardType.equals("school")'>
+				tbl_school
+			</if>
+			<if test='boardType.equals("share")'>
+				tbl_share
+			</if> 
+		
 		<if test='searchType.equals("title")'>
 			where title LIKE concat('%',#{keyword},'%')
 		</if>
@@ -84,7 +128,7 @@
 		<if test='searchType.equals("writer")'>
 			where writer LIKE concat('%',#{keyword},'%')
 		</if>
-
+		and listType = #{listType}
 		order by bno desc
 		limit #{displayPost}, #{postNum}
 	</select>
@@ -92,15 +136,26 @@
 	<!-- 게시물 총 갯수 + 검색 적용 -->
 	<select id="searchCount" parameterType="hashMap"
 		resultType="int">
-		select count(bno) from tbl_board
+		select 
+			count(bno) 
+		from 
+			<if test='boardType.equals("board")'>
+				tbl_board
+			</if>
+			<if test='boardType.equals("school")'>
+				tbl_school
+			</if>
+			<if test='boardType.equals("share")'>
+				tbl_share
+			</if> 
 
 		<if test='searchType.equals("title")'>
 			WHERE title LIKE concat('%', #{keyword}, '%')
-		</if>
+		</if> 
 
 		<if test='searchType.equals("content")'>
 			WHERE content LIKE concat('%', #{keyword}, '%')
-		</if>
+		</if> 
 
 		<if test='searchType.equals("title_content")'>
 			WHERE title LIKE concat('%', #{keyword}, '%')
@@ -110,11 +165,20 @@
 		<if test='searchType.equals("writer")'>
 			WHERE writer LIKE concat('%', #{keyword}, '%')
 		</if>
+		and listType = #{listType}
 	</select>
 	
-	<update id="viewCnt" parameterType="int">
+	<update id="viewCnt" parameterType="hashMap">
 		update
-			tbl_board
+			<if test='boardType.equals("board")'>
+				tbl_board
+			</if>
+			<if test='boardType.equals("school")'>
+				tbl_school
+			</if>
+			<if test='boardType.equals("share")'>
+				tbl_share
+			</if> 
 		set
 			viewCnt = viewCnt +1
 		where 
@@ -123,7 +187,7 @@
 	
 	
 	<!-- 댓글 리스트 -->
-	<select id="boardReplyList" resultType="com.board.domain.BoardReplyVO" parameterType="int">
+	<select id="boardReplyList" resultType="com.board.domain.BoardReplyVO" parameterType="hashMap">
 		select
 			reply_id,
 			board_bno,
@@ -134,7 +198,7 @@
 		from 
 			board_reply
 		where 
-			board_bno = #{bno}
+			board_bno = #{bno} and listType = #{listType}
 		order by reply_id asc
 	</select>
 	
@@ -142,6 +206,7 @@
 	<insert id = "insertBoardReply" parameterType="hashMap" useGeneratedKeys="true" keyProperty="reply_id">
 		insert into board_reply(
 			board_bno,
+			listType,
 			parent_id,
 			depth,
 			reply_content,
@@ -149,6 +214,7 @@
 			student_id
 		)values(
 			#{board_bno},
+			#{listType},
 			#{parent_id},
 			#{depth},
 			#{reply_content},
@@ -211,7 +277,7 @@
 			reply_id = #{reply_id}
 	</update>
 	
-	<!-- 댓글 패스워드 확인 -->
+	<!-- 댓글 사용자 확인 -->
 	<select id="selectReplyStudent_id" resultType="int" parameterType="java.util.HashMap">
         select
             count(*)

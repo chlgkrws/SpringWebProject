@@ -26,6 +26,7 @@ public class SignDAOImpl implements SignDAO{
 		String result = sql.selectOne("signedCheck", student_id);
 		/* System.out.println("result: " + result); */
 		if(result == null) {
+			System.out.println("null");
 			return false;
 		}
 		return result.equals("1234") ? true : false;

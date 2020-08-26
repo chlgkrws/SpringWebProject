@@ -31,8 +31,13 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public BoardVO view(int bno) throws Exception {
-		return sql.selectOne(namespace + ".view", bno);
+	public BoardVO view(int bno, String boardType, String listType) throws Exception {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("bno", bno);
+		paramMap.put("boardType", boardType);
+		paramMap.put("listType", listType);
+		
+		return sql.selectOne(namespace + ".view", paramMap);
 	}
 
 	@Override
@@ -41,8 +46,13 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public void delete(int bno) throws Exception {
-		sql.delete(namespace + ".delete", bno);
+	public void delete(int bno,String boardType, String listType) throws Exception {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("bno", bno);
+		paramMap.put("boardType", boardType);
+		paramMap.put("listType", listType);
+		
+		sql.delete(namespace + ".delete", paramMap);
 	}
 
 	@Override
@@ -61,7 +71,7 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public List<BoardVO> listPageSearch(int displayPost, int postNum, String searchType, String keyword)
+	public List<BoardVO> listPageSearch(int displayPost, int postNum, String searchType, String keyword, String boardT, String listT)
 			throws Exception {
 		HashMap<String, Object> data = new HashMap<String, Object>();
 
@@ -70,24 +80,35 @@ public class BoardDAOImpl implements BoardDAO {
 
 		data.put("searchType", searchType);
 		data.put("keyword", keyword);
+		
+		data.put("boardType", boardT);
+		data.put("listType", listT);
 
 		return sql.selectList(namespace + ".listPageSearch", data);
 	}
 
 	@Override
-	public int searchCount(String searchType, String keyword) throws Exception {
+	public int searchCount(String searchType, String keyword , String boardT, String listT) throws Exception {
 
 		HashMap<String, Object> data = new HashMap<String, Object>();
-
+		//boardT = "tbl_".concat(boardT);					//테이블 구분
+		
 		data.put("searchType", searchType);
 		data.put("keyword", keyword);
+		data.put("boardType", boardT);
+		data.put("listType", listT);
 
 		return sql.selectOne(namespace + ".searchCount", data);
 	}
 
 	@Override
-	public List<BoardReplyVO> getReplyList(int bno) throws Exception {
-		return sql.selectList(namespace + ".boardReplyList", bno);
+	public List<BoardReplyVO> getReplyList(int bno, String  boardType, String listType) throws Exception {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("bno", bno);
+		//paramMap.put("boardType", boardType);
+		paramMap.put("listType", listType);
+		
+		return sql.selectList(namespace + ".boardReplyList", paramMap);
 
 	}
 
@@ -127,8 +148,13 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public void viewCnt(int bno) throws Exception {
-		sql.update(namespace+".viewCnt",bno);
+	public void viewCnt(int bno, String boardType, String listType) throws Exception {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("bno", bno);
+		paramMap.put("boardType", boardType);
+		paramMap.put("listType", listType);
+		
+		sql.update(namespace+".viewCnt",paramMap);
 	}
 
 }

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="author" content="JaeKeun-Lee">
+        <meta name="description" content="Web Project">
+        <meta name="keywords" content="Web Project">
+        <title>회원가입</title>
+
+        <link rel="stylesheet" href="css/reset.css">
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+        
+        <div id="register-box">
+            <p class="l_title">회원가입</p>
+            <form id="fregisterform" name="fregisterform" action="#" method="post" autocomplete="off">
+                <legend>회원가입</legend>
+                <input type="hidden" name="w" value="">
+                <input type="hidden" name="url" value="">
+                <input type="hidden" name="cert_type" value="">
+                <input type="hidden" name="cert_no" value="">
+    
+                <p>실명</p>
+                <input type="text" name="reg_name" id="reg_name" tabindex="1" required>
+    
+                <p>학번</p>
+                <input type="text" name="reg_id" id="reg_id" tabindex="2" maxlength="15" required>
+
+                <p>비밀번호</p>
+                <input type="password" name="reg_password" id="reg_password" tabindex="4" required>
+    
+                <p>비밀번호 확인</p>
+                <input type="password" name="reg_password_re" id="reg_password_re" tabindex="5" required>
+    
+                <input type="checkbox" name="agree" value="1" tabindex="6"><label class="desc"><a href="#" target="_blank">이용약관</a>, <a href="#" target="_blank">개인정보취급방침</a>에 동의합니다.</label>
+    
+                <input class="submit" type="submit" id="btn_submit" value="회원가입" tabindex="7">
+            </form>
+        </div>
+    </body>
+</html>

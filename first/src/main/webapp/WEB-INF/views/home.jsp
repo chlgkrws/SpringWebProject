@@ -15,8 +15,9 @@
 	</sec:authorize>
 <P>  The time on the server is ${serverTime}. </P>
 
-<p><a href="/board/listPageSearch?num=1">게시물 목록</a></p>
-<p><a href="/board/write">게시물 작성</a></p>
+<p><a href="/board/listPageSearch?num=1&boardType=board&listType=free">게시물 목록</a></p>
+<!-- <p><a href="/board/write">게시물 작성</a></p>
+ -->
 
 </body>
 </html>

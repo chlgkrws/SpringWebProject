@@ -23,7 +23,7 @@
 	<label>내용</label>
 	<textarea rows="5" cols="50" name="content" id ="content" >${view.content }</textarea><br/>
 	
-	<button type="summit">완료</button>
+	<button type="submit">완료</button>
 	
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.js"></script>
     <script src="<c:url value="/resources/ckeditor/ckeditor.js" />"></script>

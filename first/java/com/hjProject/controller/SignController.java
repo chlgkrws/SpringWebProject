@@ -51,7 +51,7 @@ public class SignController {
 		//System.out.println(paramMap.get("student_password").toString());
 		
 		String student_id = paramMap.get("student_id").toString();
-		
+		System.out.println(student_id);
 		boolean signedCheck = service.signedCheck(student_id);
 		if(!signedCheck) {
 			retVal.put("code", "FAIL");
@@ -76,7 +76,7 @@ public class SignController {
 	}
 	
 	@RequestMapping(value = "/customLogin",method = RequestMethod.GET)
-	public void getLogin(HttpSession session,String error, String logout) {
+	public void getLogin(HttpSession session,String error, String logout,HttpServletRequest request) {
 		System.out.println("hi this is /login get");
 		log.info("this is customLogin");
 		

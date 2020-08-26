@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="author" content="JaeKeun-Lee">
+        <meta name="description" content="Web Project">
+        <meta name="keywords" content="Web Project">
+        <title>로그인</title>
+
+        <link rel="stylesheet" href="resources/css/reset.css">
+        <link rel="stylesheet" href="resources/css/style.css">
+    </head>
+    <body>
+        <header>
+            <div class="header">
+                <div class="title">
+                    <div class="container">
+                        <div class="mainmenu">
+                            <ul >
+                                <li><a href="#" class="logo" ><img class="logo" src="icon/favicon.ico"> </a></li>
+
+                                <li>
+                                    <a href="#">학교생활</a>
+                                    <ul id="submenu">
+                                        <li>
+                                            <a href="#">공지사항</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">졸업&수업 꿀팁</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                
+                                <li>
+                                    <a href="#">게시판</a>
+                                    <ul id="submenu">
+                                        <li>
+                                            <a href="#">자유게시판</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">수업게시판</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Q&A</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                
+                                <li>
+                                    <a href="#">전공 서적</a>
+                                    <ul id="submenu">
+                                        <li>
+                                            <a href="#">서적나눔</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div id="tophead">
+                            <ul >
+                                <li>
+                                    <a href="#">CONTACT</a>
+                                </li>
+                                <li id="layer">
+                                    <a href="http://kyustudents.dothome.co.kr/kyuweb/login.html">LOGIN</a>
+                                </li>
+                                <li>
+                                    <a href="http://kyustudents.dothome.co.kr/kyuweb/index.html">HOME</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>  
+                </div>
+            </div>
+        </header>
+        <div class="layer">
+            <div id="login_box">
+                <p class="l_title">로그인</p>
+                <form id="login" name="login" action="" method="post">
+                    <fieldset id="login_fs">
+                        <legend>회원로그인</legend>
+                        <input type="text" name="login_id" id="input_id" placeholder="아이디" tabindex="1" required>
+                        <input type="password" name="login_password" id="input_password" placeholder="비밀번호" tabindex="2" required>
+                        <input class="submit" type="submit" value="로그인" tabindex="3">
+                    </fieldset>
+                </form>
+
+                <div class="find">
+                    <a href="#" tabindex="4">비밀번호 찾기</a>
+                    <span class="space">|</span>
+                    <a href="#" tabindex="5">회원가입</a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

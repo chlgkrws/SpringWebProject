@@ -25,6 +25,10 @@ public class Page {
 	// 표시되는 페이지 번호 중 첫번째 번호
 	private int startPageNum;
 
+	//메뉴 타입과 어떤 메뉴인지 확인
+	private String boardType;
+	private String listType;
+	
 	// 다음/이전 표시 여부
 	private boolean prev;
 	private boolean next;
@@ -133,6 +137,22 @@ public class Page {
 
 	public String getKeyword() {
 		return keyword;
+	}
+
+	public String getBoardType() {
+		return boardType;
+	}
+
+	public void setBoardType(String boardType) {
+		this.boardType = boardType;
+	}
+
+	public String getListType() {
+		return listType;
+	}
+
+	public void setListType(String listType) {
+		this.listType = listType;
 	}
 
 }
