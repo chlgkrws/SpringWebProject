@@ -27,7 +27,8 @@
 		<label>제목</label> <input type="text" name="title" id="title" value="${view.title }"/><br />
 		
 		<label>작성자</label>
-		${principal_name }
+		${principal_name } 
+		
 		
 		
 		<label>내용</label>
@@ -60,7 +61,7 @@
             	var header = $("meta[name='_csrf_header']").attr("content");
                 var token = $("meta[name='_csrf']").attr("content");
                 
-                CKEDITOR.replace( 'content' );
+                CKEDITOR.replace( 'content' ,{filebrowserUploadUrl:"/board/fileUpload?${_csrf.parameterName}=${_csrf.token}"});
                 CKEDITOR.config.height = 500;
                 
                  

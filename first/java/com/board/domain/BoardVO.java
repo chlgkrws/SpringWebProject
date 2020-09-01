@@ -21,6 +21,11 @@ public class BoardVO {
 	private String content;
 	private String writer;
 	private String student_id;
+	private Date regDate;
+	private int viewCnt;
+	private String listType;
+	
+	private String boardType;
 	
 	public int getBno() {
 		return bno;
@@ -68,7 +73,18 @@ public class BoardVO {
 		this.student_id = student_id;
 	}
 
+	public String getListType() {
+		return listType;
+	}
+	public void setListType(String listType) {
+		this.listType = listType;
+	}
+	public String getBoardType() {
+		return boardType;
+	}
+	public void setBoardType(String boardType) {
+		this.boardType = boardType;
+	}
 
-	private Date regDate;
-	private int viewCnt;
+	
 }

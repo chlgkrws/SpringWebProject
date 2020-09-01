@@ -24,7 +24,7 @@ public interface BoardService {
 
 	// 게시물 총 갯수
 	public int count() throws Exception;
-
+	
 	// 게시물 목록 + 페이징
 	public List listPage(int displayPost, int postNum) throws Exception;
 
@@ -53,4 +53,9 @@ public interface BoardService {
 	// 댓글 패스워드 확인
 	boolean checkReply(Map<String, Object> paramMap);
 	
+	// 가장 많은 조회 게시물
+	public List<BoardVO> highViewCnt();
+	
+	// 가장 최근 게시물
+	public List<BoardVO> recentView();
 }

@@ -1,5 +1,6 @@
 package com.board.domain;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class BoardReplyVO {
@@ -21,6 +22,10 @@ public class BoardReplyVO {
 	private String parent_id;
 	private String depth;
 	private String reply_content;
+	private String reply_writer;
+	private Date register_datetime;
+	private String register_datetime_real;
+	
 	public String getReply_id() {
 		return reply_id;
 	}
@@ -57,20 +62,19 @@ public class BoardReplyVO {
 	public void setReply_writer(String reply_writer) {
 		this.reply_writer = reply_writer;
 	}
-	public String getReply_password() {
-		return reply_password;
-	}
-	public void setReply_password(String reply_password) {
-		this.reply_password = reply_password;
-	}
+	
 	public Date getRegister_datetime() {
 		return register_datetime;
 	}
 	public void setRegister_datetime(Date register_datetime) {
+		register_datetime_real = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(register_datetime);
 		this.register_datetime = register_datetime;
 	}
-	private String reply_writer;
-	private String reply_password;
-	private Date register_datetime;
 	
+	public String getRegister_datetime_real() {
+		return register_datetime_real;
+	}
+	public void setRegister_datetime_real(String register_datetiem_real) {
+		
+	}
 }

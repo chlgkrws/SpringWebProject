@@ -95,16 +95,7 @@
                         	</li>
                         </c:forEach>
                     </ul>
-                    <div class="search">
-	                    <select name="searchType">
-							<option value="title" <c:if test="${page.searchType eq 'title' }">selected</c:if> >제목</option>
-							<option value="content" <c:if test="${page.searchType eq 'content' }">selected</c:if>>내용</option>
-							<option value="title_content" <c:if test="${page.searchType eq 'title_content' }">selected</c:if>>제목+내용</option>
-							<option value="writer" <c:if test="${page.searchType eq 'writer' }">selected</c:if>>작성자</option>
-						</select>
-                        <input type="text" class="submit" name="keyword" value='${page.keyword }' />
-                        <button type="button" id="searchBtn">검색</button>
-                    </div>
+                    
                 </div>
 
                 
@@ -147,7 +138,20 @@
                     </table>
                 </div>
                 <!--board-list-->
-
+				
+				<!-- Search -->
+				<div class="search">
+                    <select name="searchType">
+						<option value="title" <c:if test="${page.searchType eq 'title' }">selected</c:if> >제목</option>
+						<option value="content" <c:if test="${page.searchType eq 'content' }">selected</c:if>>내용</option>
+						<option value="title_content" <c:if test="${page.searchType eq 'title_content' }">selected</c:if>>제목+내용</option>
+						<option value="writer" <c:if test="${page.searchType eq 'writer' }">selected</c:if>>작성자</option>
+					</select>
+                    <input type="text" class="submit" name="keyword" placeholder="검색어를 입력하세요."value='${page.keyword }' />
+					<button type="button" id="searchBtn">검색</button>
+                </div>
+			
+				<!-- //Search -->
               
                 <div class="pg_wrap">
 					<c:if test="${page.prev }">

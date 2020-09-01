@@ -921,28 +921,37 @@ body {
     margin-left: 16px;
 }
 
-#wrapper > #container > div.side-menu > div.search {
+#wrapper > #container > div.board-list > div.search {
+	vertical-align: middle;
     margin-top: 30px;
-    width: 220px;
-    height: 50px;
-    background-color: #fff;
-}
-#wrapper > #container > div.side-menu > div.search > input {
-    float: left;
-    width: 70%;
-    height: 18px;
-    padding: 15px 8px;
+    width: inherit;
+    height: 60px;
     color: #000;
-    border: 1px solid #eee;
+    text-align:center;
 }
-#wrapper > #container > div.side-menu > div.search > a {
-    float: right;
-    width: 20%;
-    height: 20px;
-    font-size: 13px;
-    color: #aaa;
-    text-align: center;
-    padding: 15px 0;
+#wrapper > #container > div.board-list > div.search > select,
+#wrapper > #container > div.board-list > div.search > select > option {
+    margin: 0 auto;
+    width: 100px;
+    height: 40px;
+    color: #000;
+  
+}
+#wrapper > #container > div.board-list > div.search > input.submit {
+    width: 250px;
+    height: 40px;
+    color: #000;
+    text-align: left;
+    padding-left : 5px;
+	margin-left : 5px;
+	margin-top:-2px;
+}
+#wrapper > #container > div.board-list > div.search > button{
+	width: 50px;
+	height:40px;
+	color : #000;
+	text-align:center;
+	background-color:#fff;
 }
 
 
@@ -1039,6 +1048,87 @@ body {
     font-weight: bold;
     font-size: 15px;
     color: #fff;
+}
+.pg_wrap .pg_page > b {
+	color: #fff;
+}
+
+/* Read */
+.tbl_frm01 {
+    margin: 20px 0 0 0;
+    border-top: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+}
+.tbl_frm01 table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+.tbl_frm01 th {
+    width: 70px;
+    padding: 7px 13px;
+    border: 1px solid #fff;
+    border-left: 0;
+    background: #f5f8f9;
+    color: #000;
+    text-align: left;
+}
+.tbl_frm01 td.td-content > #board-content{
+    padding: 20px 0;
+}
+
+
+.tbl_frm01 tr.td-comment .comment-list {
+    text-align: left;
+    max-width: 100%;
+}
+.tbl_frm01 tr.td-comment .comment-list > a,
+.tbl_frm01 tr.td-comment .comment-list > p,
+.tbl_frm01 tr.td-comment .comment-list > span {
+    display: inline-block;
+    font-size: 10px;
+    overflow: hidden;
+    
+}
+.tbl_frm01 td {
+    padding: 7px 10px;
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    background: transparent;
+    text-align: left;
+}
+.tbl_frm01 > #comment {
+    margin-top: 20px;
+    width: 100%;
+    height: 100px;
+}
+
+.tbl_frm01 > #comment > textarea {
+    min-width: 80%;
+    max-width: 80%;
+    min-height: 80px;
+    max-height: 80px;
+    border: 1px solid #e4eaec;
+    background: #fff;
+    color: #000;
+    vertical-align: middle;
+    line-height: 1.5em;
+    padding: 5px;
+}
+.tbl_frm01 > #comment > #commit{
+    float: right;
+    height: 92px;
+    width: 17%;
+    text-align: center;
+    
+}
+.tbl_frm01 > #comment > #commit > a {
+    display: inline-block;
+    background-color: #fff;
+    color: #000;
+    width: 100%;
+    height: inherit;
+    line-height: 5.5em;
 }
 
 /* Mobile화면으로 */

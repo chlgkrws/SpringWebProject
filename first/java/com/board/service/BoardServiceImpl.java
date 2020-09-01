@@ -141,4 +141,14 @@ public class BoardServiceImpl implements BoardService {
 		
 	}
 
+	@Override
+	public List<BoardVO> highViewCnt() {
+		return dao.highViewCnt();
+	}
+
+	@Override
+	public List<BoardVO> recentView() {
+		return dao.recentView();
+	}
+
 }

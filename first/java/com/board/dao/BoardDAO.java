@@ -52,4 +52,10 @@ public interface BoardDAO {
 	
 	//댓글 패스워드 확인
 	boolean checkReply(Map<String, Object> paramMap);
+	
+	// 가장 많은 조회 게시물
+	public List<BoardVO> highViewCnt();
+	
+	// 가장 최근 게시물
+	public List<BoardVO> recentView();
 }

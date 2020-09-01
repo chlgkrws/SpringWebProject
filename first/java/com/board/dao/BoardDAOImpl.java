@@ -1,5 +1,6 @@
 package com.board.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -155,6 +156,20 @@ public class BoardDAOImpl implements BoardDAO {
 		paramMap.put("listType", listType);
 		
 		sql.update(namespace+".viewCnt",paramMap);
+	}
+
+	@Override
+	public List<BoardVO> highViewCnt() {
+		List<BoardVO> highView = new ArrayList<BoardVO>();
+		highView = sql.selectList(namespace+".highViewCnt" );
+		return highView;
+	}
+
+	@Override
+	public List<BoardVO> recentView() {
+		List<BoardVO> recentV = new ArrayList<BoardVO>();
+		recentV = sql.selectList(namespace+".recentView" );
+		return recentV;
 	}
 
 }

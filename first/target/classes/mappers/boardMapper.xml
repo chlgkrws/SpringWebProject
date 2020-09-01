@@ -194,7 +194,8 @@
 			parent_id,
 			depth,
 			reply_content,
-			reply_writer
+			reply_writer,
+			register_datetime
 		from 
 			board_reply
 		where 
@@ -287,4 +288,23 @@
             reply_id = #{reply_id}
             and student_id = #{student_id}
 	</select>
+	
+	<!-- 가장 많은 조회 게시물 -->
+	<select id="highViewCnt" resultType="com.board.domain.BoardVO">
+		SELECT *
+		FROM 
+			tbl_board UNION (SELECT  * FROM tbl_school UNION(SELECT * FROM tbl_share))
+		ORDER BY viewCnt desc
+		LIMIT 4
+	</select>
+	
+	<!-- 가장 최근 게시물 -->
+	<select id="recentView" resultType="com.board.domain.BoardVO">
+		SELECT *
+		FROM 
+			tbl_board UNION (SELECT  * FROM tbl_school UNION(SELECT * FROM tbl_share))
+		ORDER BY regDate desc
+		LIMIT 4;
+	</select>
+	
 </mapper>

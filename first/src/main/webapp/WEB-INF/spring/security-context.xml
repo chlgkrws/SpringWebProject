@@ -22,10 +22,10 @@
 		default-target-url="/"
 		authentication-success-handler-ref='customLoginSuccess' 
 		authentication-failure-handler-ref="customLoginFailure"
-		
 		/>	
 		<security:logout logout-url="/sign/logout" invalidate-session="true" logout-success-url="/"/>
 		<security:access-denied-handler error-page="/accessError"/>
+		
 	</security:http>
 	
 	<bean id="customLoginFailure" class="com.hjProject.security.CustomLoginFailureHandler">
