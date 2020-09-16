@@ -37,20 +37,12 @@
 </head>
 <body>
 
-<h1>
-	Hello world!  
-</h1>
-<sec:authorize access="isAuthenticated()">
-	<h1><sec:authentication property="principal.student_name"></sec:authentication>님 어서오세요</h1>
-	</sec:authorize>
-<P>  The time on the server is ${serverTime}. </P>
 
-<p><a href="/board/listPageSearch?num=1&boardType=board&listType=free">게시물 목록</a></p>
-<!-- <p><a href="/board/write">게시물 작성</a></p>
- -->
 	<div id="nav">
 		<%@ include file="include/nav.jsp"%>
-	</div>
+	</div>	
+	
+		
       
        <main>
            <section id="contents">
@@ -145,9 +137,9 @@
                            <div class="blog1">
                                <h5 class="ir_su">Image1</h5>
                                <figure>
-                                   <img src="img/blog4_@2.jpg" class="img-normal" alt="normal image">
-                                   <img src="img/blog4_@2.jpg" class="img-retina" alt="retina image">
-                                   <figcaption>융합 IT 학과 동아리 ()()() 입니다.융합 IT 학과 동아리 ()()() 입니다.융합 IT 학과 동아리 ()()() 입니다.융합 IT 학과 동아리 ()()() 입니다.융합 IT 학과 동아리 ()()() 입니다.</figcaption>
+                                   <img src="/resources/img/blog4_@2.jpg" class="img-normal" alt="normal image">
+                                   <img src="/resources/img/blog4_@2.jpg" class="img-retina" alt="retina image">
+                                   <figcaption>융합 IT 학과 동아리 ()()() 입니다.</figcaption>
                                </figure>
                            </div>
                            <!--//blog -->
@@ -156,7 +148,7 @@
                                <div class="img-retina">
                                    <h5>Image2</h5>
                                </div>
-                               <p>융합 IT 학과 동아리 ()()() 입니다.융합 IT 학과 동아리 ()()() 입니다.융합 IT 학과 동아리 ()()() 입니다.융합 IT 학과 동아리 ()()() 입니다.융합 IT 학과 동아리 ()()() 입니다.융합 IT 학과 동아리 ()()() 입니다.</p>
+                               <p>융합 IT 학과 동아리 ()()() 입니다.</p>
                            </div>
                            <!--//blog2 -->
                        </article>
@@ -173,23 +165,23 @@
                            <div class="slider">
                                <div>
                                    <figure>
-                                       <img src="img/slider001.jpg" alt="이미지1">
+                                       <img src="/resources/img/slider001.jpg" alt="이미지1">
                                        <figcaption>
-                                           <em>00대회 수상</em>
+                                           <em>oo대회 수상</em>
                                            <span>대회 준비 기간 20.07.20 ~ 20.08.06</span></figcaption>
                                    </figure>
                                </div>
                                <div>
                                    <figure>
-                                       <img src="img/slider001.jpg" alt="이미지2">
+                                       <img src="/resources/img/slider001.jpg" alt="이미지2">
                                        <figcaption>
-                                           <em>ㅁㅁ공모전 수상</em>
-                                           <span>ㅁㅁ사 공모전 후기</span></figcaption>
+                                           <em>oo공모전 수상</em>
+                                           <span>oo사 공모전 후기</span></figcaption>
                                    </figure>
                                </div>
                                <div>
                                    <figure>
-                                       <img src="img/slider001.jpg" alt="이미지3">
+                                       <img src="/resources/img/slider001.jpg" alt="이미지3">
                                        <figcaption>
                                            <em>융합IT 15학번 IT포트폴리오</em>
                                            </figcaption>
@@ -205,34 +197,34 @@
                            <p class="col_desc">선배들의 취업 준비 포트폴리오, 수업 진행하면서 제출했던 과제, 리포트 참고자료</p>
                            <!-- lightbox -->
                            <div class="lightbox square clearfix">
-                               <a href="img/light01_s.jpg"><img src="img/light01.jpg" alt="이미지">
+                               <a href="/resources/img/light01_s.jpg"><img src="/resources/img/light01.jpg" alt="이미지">
                                    <em>blur</em>
                                </a>
-                               <a href="img/light02_s.jpg"><img src="img/light02.jpg" alt="이미지">
+                               <a href="/resources/img/light02_s.jpg"><img src="/resources/img/light02.jpg" alt="이미지">
                                    <em>brightness</em>
                                </a>
-                               <a href="img/light03_s.jpg"><img src="img/light03.jpg" alt="이미지">
+                               <a href="/resources/img/light03_s.jpg"><img src="/resources/img/light03.jpg" alt="이미지">
                                    <em>contrast</em>
                                </a>
-                               <a href="img/light04_s.jpg"><img src="img/light04.jpg" alt="이미지">
+                               <a href="/resources/img/light04_s.jpg"><img src="/resources/img/light04.jpg" alt="이미지">
                                    <em>grayscale</em>
                                </a>
-                               <a href="img/light05_s.jpg"><img src="img/light05.jpg" alt="이미지">
+                               <a href="/resources/img/light05_s.jpg"><img src="/resources/img/light05.jpg" alt="이미지">
                                    <em>hue-rotate</em>
                                </a>
-                               <a href="img/light06_s.jpg"><img src="img/light06.jpg" alt="이미지">
+                               <a href="/resources/img/light06_s.jpg"><img src="/resources/img/light06.jpg" alt="이미지">
                                    <em>invert</em>
                                </a>
-                               <a href="img/light07_s.jpg"><img src="img/light07.jpg" alt="이미지">
+                               <a href="/resources/img/light07_s.jpg"><img src="/resources/img/light07.jpg" alt="이미지">
                                    <em>opacity</em>
                                </a>
-                               <a href="img/light08_s.jpg"><img src="img/light08.jpg" alt="이미지">
+                               <a href="/resources/img/light08_s.jpg"><img src="/resources/img/light08.jpg" alt="이미지">
                                    <em>saturate</em>
                                </a>
-                               <a href="img/light09_s.jpg"><img src="img/light09.jpg" alt="이미지">
+                               <a href="/resources/img/light09_s.jpg"><img src="/resources/img/light09.jpg" alt="이미지">
                                    <em>sepia</em>
                                </a>
-                               <a href="img/light10_s.jpg"><img src="img/light10.jpg" alt="이미지">
+                               <a href="/resources/img/light10_s.jpg"><img src="/resources/img/light10.jpg" alt="이미지">
                                    <em>Mix</em>
                                </a>
                            </div>
@@ -245,7 +237,7 @@
                            <p class="col_desc">영상을 보여주는 영역입니다.</p>
                            <!-- video -->
                            <!-- <video autoplay="autoplay" controls="controls" loop="loop"> <source
-                           src="img/video.mp4" type="video/mp4"> </video> -->
+                           src="/resources/img/video.mp4" type="video/mp4"> </video> -->
                            <div class="video">
                                <iframe width="560" height="315" src="https://www.youtube.com/embed/yytWGELNeOI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                            </div>
@@ -258,11 +250,11 @@
                        <h3 class="ir_su">반응형 사이트 오른쪽 컨텐츠</h3>
                        <article class="column col7">
                            <h4 class="col_tit">Effect1</h4>
-                           <p class="col_desc">CSS3의 transform을 이용한 마우스 오버효과입니다.</p>
+                           <p class="col_desc">마우스 오버효과1</p>
                            <!-- side1 -->
                            <div class="side1">
                                <figure class="front">
-                                   <img src="img/side1.jpg" alt="이미지2">
+                                   <img src="/resources/img/side1.jpg" alt="이미지2">
                                </figure>
                                <div class="back">
                                    <i class="fa fa-heart fa-4x" aria-hidden="true"></i>
@@ -274,17 +266,17 @@
 
                        <article class="column col8">
                            <h4 class="col_tit">Effect2</h4>
-                           <p class="col_desc">CSS3의 transform을 이용한 마우스 오버효과입니다.</p>
+                           <p class="col_desc">마우스 오버효과2</p>
                            <!-- side2 -->
                            <div class="side2">
                                <figure class="front">
-                                   <img src="img/side2.jpg" alt="이미지2">
+                                   <img src="/resources/img/side2.jpg" alt="이미지2">
                                    <figcaption>
                                        <h3>Hover Effect</h3>
                                    </figcaption>
                                </figure >
                                <figure class="back">
-                                   <img src="img/side4.jpg" alt="이미지2">
+                                   <img src="/resources/img/side4.jpg" alt="이미지2">
                                    <figcaption>
                                        <h3>Hover Effect</h3>
                                    </figcaption>
@@ -296,11 +288,11 @@
 
                        <article class="column col9">
                            <h4 class="col_tit">Effect3</h4>
-                           <p class="col_desc">CSS3의 transform을 이용한 마우스 오버효과입니다.</p>
+                           <p class="col_desc">마우스 오버효과3</p>
                            <!-- side3 -->
                            <div class="side3">
                                <figure>
-                                   <img src="img/side3.jpg" alt="이미지3">
+                                   <img src="/resources/img/side3.jpg" alt="이미지3">
                                    <figcaption>
                                        <h3>Hover<em>Effect</em>
                                        </h3>

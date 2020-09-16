@@ -5,41 +5,7 @@
 
 
    
-  <%--  <ul>
-   		<li>
-   			<a href="/">home</a>
-   		</li>
-  		<li>
-   			<a href="/board/listPageSearch?num=1">글 목록(페이징 + 검색)</a>
-   		</li>
-   		<!-- <li>
-   			<a href="/board/listPage?num=1">글 목록(페이징)</a>
-   		</li>
-   		<li>
-   			<a href="/board/list">글 목록</a>
-   		</li> -->
-   		
-   		<li>
-   			<a href="/board/write?boardType=${boardType}&listType=${listType}">글 작성</a>
-   		</li>
-   		<sec:authorize access="isAnonymous()">
-  		<li>
-  			<a href="/sign/signUp">회원가입</a>
-  		</li>
-  		</sec:authorize>
-  		<sec:authorize access="isAnonymous()">
-  		<li>
-  			<a href="/sign/customLogin">로그인</a>
-  		</li>
-  		</sec:authorize>
-  		<sec:authorize access="isAuthenticated()">
-  		<li>
-  			<a href="/sign/logout">로그아웃</a>
-  		</li>
-  		</sec:authorize>
-   </ul> --%>
-   
-   
+
   
    
    
@@ -121,33 +87,3 @@
         
         
         
-        <!--  <table border="1" >
-   	<tr> 
-   		<td>
-   			<p>학교생활</p>
-   		</td>
-   		<td>
-   			<p>게시판</p>
-   		</td>
-   		<td>
-   			<p>전공 서적</p>
-   		</td>
-   	</tr>
-   	<tr >
-   		<td>
-   			<a href="/board/listPageSearch?num=1&boardType=school&listType=notice">공지</a>
-   			<hr/>
-   			<a href="/board/listPageSearch?num=1&boardType=school&listType=tip">졸업 수업 꿀팁</a>
-   		</td>
-   		<td>
-   			<a href="/board/listPageSearch?num=1&boardType=board&listType=free">자유게시판</a>
-   			<hr/>
-   			<a href="/board/listPageSearch?num=1&boardType=board&listType=study">수업게시판</a>
-   			<hr/>
-   			<a href="/board/listPageSearch?num=1&boardType=board&listType=qna">Q & A</a>
-   		</td>
-   		<td>
-   			<a href="/board/listPageSearch?num=1&boardType=share&listType=share">서적 나눔</a>
-   		</td>
-   	</tr>
-   </table> -->

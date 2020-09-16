@@ -7,6 +7,7 @@ body {
 #contents .container {
     border-right: 1px solid #111;
     border-left: 1px solid #111;
+    padding-top : 100px;
 }
 #cont_left {
     float: left;
@@ -24,6 +25,7 @@ body {
     right: 0;
     top: 0;
     width: 250px;
+    padding-top : 100px;
 }
 #footer {
     border-top: 1px solid #dbdbdb;
@@ -41,6 +43,7 @@ body {
     height: 20rem;
     background: url("../img/headerback.jpg") no-repeat center top;
     background-size: cover;
+   
 }
 @keyframes down {
     from {
