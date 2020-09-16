@@ -47,85 +47,6 @@ textarea {
 		<%@ include file="../include/nav.jsp"%>
 	</div>
 
-
-	<%-- <h2>${view.title }</h2>
-
-	<hr />
-	<div class="writer">
-		<span>작성자 : </span> ${view.writer }
-	</div>
-
-	<hr />
-	<div class="content" style="height:auto; overflow:auto;" >${view.content }</div>
-	<hr />
-	<div>
-	
-	<c:if test="${writer != null }">
-	 <a href="/board/modify?bno=${view.bno }&boardType=${boardType}&listType=${listType}">게시물 수정</a>, 
-	 <a href="/board/delete?bno=${view.bno }&boardType=${boardType}&listType=${listType}" >게시물 삭제</a>,
-	 <input type="button" onclick="checkResult()"> 
-	</c:if>
-	</div>
-
-	<p id="bno" name="bno" value="${view.bno }">${view.bno }</p>
-
-	
-	<c:if test="${!replyList.isEmpty()}">
-		<table border="1" width="1200px" id="reply_area">
-			<tr reply_type="all" style="display: none">
-				<!-- 뒤에 댓글 붙이기 쉽게 선언 -->
-				<td colspan="4"></td>
-			</tr>
-			<!-- 댓글이 들어갈 공간 -->
-			<c:forEach var="replyList" items="${replyList}" varStatus="status">
-				<tr reply_type="<c:if test="${replyList.depth == '0'}">main</c:if><c:if test="${replyList.depth == '1'}">sub</c:if>">
-					<!-- 댓글의 depth 표시 -->
-					<td width="820px"><c:if test="${replyList.depth == '1'}"> → </c:if>${replyList.reply_content}
-					</td>
-					<td width="100px">${replyList.reply_writer}
-					</td>
-					<td align="center" width="200px">
-						<c:if test="${replyList.depth != '1'}">
-						
-						<button name="reply_reply" parent_id="${replyList.reply_id}"
-								reply_id="${replyList.reply_id}">댓글
-						</button>
-							<!-- 첫 댓글에만 댓글이 추가, 대댓글 불가 -->
-						</c:if>
-						<button name="reply_modify" parent_id="${replyList.parent_id}"
-							r_type="<c:if test="${replyList.depth == '0'}">main</c:if><c:if test="${replyList.depth == '1'}">sub</c:if>"
-							reply_id="${replyList.reply_id}">수정
-						</button>
-						<button name="reply_del"
-							r_type="<c:if test="${replyList.depth == '0'}">main</c:if><c:if test="${replyList.depth == '1'}">sub</c:if>"
-							reply_id="${replyList.reply_id}">삭제
-						</button>
-					</td>
-				</tr>
-			</c:forEach>
-			</table>
-	</c:if>
-	
-	<!-- 댓글등록 -->
-	
-	<table border="1" width="1200px" bordercolor="#46AA46">
-		<tr>
-			<td width="500px">
-				${principal_name }
-				 
-				 <!-- 패스워드: <input type="password"
-				id="reply_password" name="reply_password" style="width: 170px;"
-				maxlength="10" placeholder="패스워드" /> -->
-				<button id="reply_save" name="reply_save">댓글 등록</button>
-			</td>
-		</tr>
-		<tr>
-			<td><textarea id="reply_content" name="reply_content" rows="4"
-					cols="50" placeholder="댓글을 입력하세요."></textarea></td>
-		</tr>
-	</table>
-	<h1>${sessionScope.student_id }</h1>
-	<h1>${sessionScope.student_name }</h1> --%>
 	
 
         <div id="wrapper">
@@ -139,16 +60,6 @@ textarea {
                         	</li>
                         </c:forEach>
                     </ul>
-                    <%-- <div class="search">
-	                    <select name="searchType">
-							<option value="title" <c:if test="${page.searchType eq 'title' }">selected</c:if> >제목</option>
-							<option value="content" <c:if test="${page.searchType eq 'content' }">selected</c:if>>내용</option>
-							<option value="title_content" <c:if test="${page.searchType eq 'title_content' }">selected</c:if>>제목+내용</option>
-							<option value="writer" <c:if test="${page.searchType eq 'writer' }">selected</c:if>>작성자</option>
-						</select>
-                        <input type="text" class="submit" name="keyword" value='${page.keyword }' />
-                        <button type="button" id="searchBtn">검색</button>
-                    </div> --%>
                 </div>
 
                 <div class="board-list">
@@ -249,142 +160,6 @@ textarea {
 					</tr>
 				</c:forEach>
 			</table>
-							<!-- <!-- 댓글 
-                            <tr class="td-comment">
-                                <td >
-                                    <div class="comment-list">
-                                        <p>
-                                            <span
-                                                style="background-color:rgb(255,255,255);color:rgb(28,30,33);font-size:14px; font-weight: bold;">
-                                                이재근</span></p>
-                                    </div>
-                                </td>
-                                <td colspan="3">
-                                    <div class="comment-list">
-                                        <p>
-                                            <span
-                                                style="background-color:rgb(255,255,255);color:rgb(28,30,33);font-size:14px;">
-                                                첫번째 댓글입니다.</span></p>
-                                    </div>
-                                </td>
-                                <td colspan="">
-                                    <div class="comment-list">
-                                        <p>
-                                            <span
-                                                style="background-color:rgb(255,255,255);color:rgb(28,30,33);font-size:14px;">
-                                                08-28 23:00</span></p>
-                                    </div>
-                                </td>
-                                <td colspan="">
-                                    <div class="comment-list">
-                                        <a href="#">댓글</a>
-                                        <p>
-                                            <span
-                                                style="background-color:rgb(255,255,255);color:rgb(28,30,33);font-size:14px;">
-                                                |</span></p>
-                                        <a href="#">수정</a>
-                                        <p>
-                                            <span
-                                                style="background-color:rgb(255,255,255);color:rgb(28,30,33);font-size:14px;">
-                                                |</span></p>
-                                        <a href="#">삭제</a>
-
-                                    </div>
-                                </td>
-                            </tr>
-                            
-                          	대댓글
-                            <tr class="td-comment">
-                                <td>
-                                    <p>└</p>
-                                </td>
-                                <td >
-                                    <div class="comment-list">
-                                        <p>
-                                            <span
-                                                style="background-color:rgb(255,255,255);color:rgb(28,30,33);font-size:14px; font-weight: bold;">
-                                                이재근</span></p>
-                                    </div>
-                                </td>
-                                <td colspan="2">
-                                    <div class="comment-list">
-                                        <p>
-                                            <span
-                                                style="background-color:rgb(255,255,255);color:rgb(28,30,33);font-size:14px;">
-                                                첫번째 대댓글입니다.</span></p>
-                                    </div>
-                                </td>
-                                <td colspan="">
-                                    <div class="comment-list">
-                                        <p>
-                                            <span
-                                                style="background-color:rgb(255,255,255);color:rgb(28,30,33);font-size:14px;">
-                                                08-28 23:00</span></p>
-                                    </div>
-                                </td>
-                                <td colspan="">
-                                    <div class="comment-list">
-                                        <a href="#">댓글</a>
-                                        <p>
-                                            <span
-                                                style="background-color:rgb(255,255,255);color:rgb(28,30,33);font-size:14px;">
-                                                |</span></p>
-                                        <a href="#">수정</a>
-                                        <p>
-                                            <span
-                                                style="background-color:rgb(255,255,255);color:rgb(28,30,33);font-size:14px;">
-                                                |</span></p>
-                                        <a href="#">삭제</a>
-                                    </div>
-                                </td>
-                            </tr>
-                            
-                            
-                            <tr class="td-comment">
-                                <td>
-                                    <p>└</p>
-                                </td>
-                                <td >
-                                    <div class="comment-list">
-                                        <p>
-                                            <span
-                                                style="background-color:rgb(255,255,255);color:rgb(28,30,33);font-size:14px; font-weight: bold;">
-                                                이재근</span></p>
-                                    </div>
-                                </td>
-                                <td colspan="2">
-                                    <div class="comment-list">
-                                        <p>
-                                            <span
-                                                style="background-color:rgb(255,255,255);color:rgb(28,30,33);font-size:14px;">
-                                                두번째 대댓글입니다.</span></p>
-                                    </div>
-                                </td>
-                                <td colspan="">
-                                    <div class="comment-list">
-                                        <p>
-                                            <span
-                                                style="background-color:rgb(255,255,255);color:rgb(28,30,33);font-size:14px;">
-                                                08-28 23:00</span></p>
-                                    </div>
-                                </td>
-                                <td colspan="">
-                                    <div class="comment-list">
-                                        <a href="#">댓글</a>
-                                        <p>
-                                            <span
-                                                style="background-color:rgb(255,255,255);color:rgb(28,30,33);font-size:14px;">
-                                                |</span></p>
-                                        <a href="#">수정</a>
-                                        <p>
-                                            <span
-                                                style="background-color:rgb(255,255,255);color:rgb(28,30,33);font-size:14px;">
-                                                |</span></p>
-                                        <a href="#">삭제</a>
-                                    </div>
-                                </td>
-                            </tr> -->
-                            
                         
                     <div id="comment">
                         <textarea cols="40" rows="3" id="reply_content" name="reply_content" placeholder="댓글을 입력하세요"></textarea>
@@ -434,37 +209,7 @@ textarea {
 				window.location.replace("/board/delete?bno=${view.bno }&boardType=${boardType}&listType=${listType}");
 			}
 		}
-		/* $(document).ready(function(){
-			var bno = ${view.bno};
-			var writer = ${view.writer};
-			var content = ${view.content};
-			var title = ${view.title};
-			var name =$("#student_name").val();
 
-			var objParams = {
-				bno :bno,
-				writer : writer,
-				content : content,
-				title : title,
-				name = name
-			};
-
-			$.ajax({
-				url : "/board/modify",
-				dataType :"json",
-				contentType :"application/x-www-form-urlencoded; charset=UTF-8",
-				type : "post",
-				data : objParams,
-				success : function(retVal){
-					if(retVal.code !="OK"){
-						alert(retVal.message);						
-					}else{
-						location.href = "/board/write"
-					}
-					
-				}
-			});
-		}); */
 	</script>
 	
 </body>

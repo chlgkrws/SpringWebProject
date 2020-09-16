@@ -105,6 +105,10 @@
 						<span class="pg_page">[<a href="/board/listPageSearch?num=${page.endPageNum + 1 }${page.getSearchTypeKeyword()}&boardType=${boardType}&listType=${listType}">다음</a>]</span>
 					</c:if>
 				</div>
+				<div align ="right">
+					
+					<a href="/board/write?boardType=${boardType }&listType=${listType}">글 작성</a>
+				</div>
             </div>
             <!--container-->
         </div>

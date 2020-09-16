@@ -55,6 +55,9 @@
 		</div>
 		
 	
+	
+	
+	
 	<script src="<c:url value="/resources/ckeditor/ckeditor.js" />"></script>
 	<script type="text/javascript">
      		$(document).ready(function(){
@@ -66,7 +69,7 @@
                 
                  
                 $("#save").click(function(){
-                     
+                    alert("${boardType}");
                     //에디터 내용 가져옴
                     var content = CKEDITOR.instances.content.getData();
                     var writer = $("#principal_name").val();		//권한가진 유저의 이름가져오기
@@ -85,13 +88,6 @@
                         $("#title").focus();
                         return false;
                     }
-                     
-                    /* if($("#writer").val().trim() == ""){
-                        alert("작성자를 입력하세요.");
-                        $("#writer").focus();
-                        return false;
-                    } */
-                     
                     
                     //값 셋팅
                     var objParams = {
