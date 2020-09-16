@@ -31,6 +31,7 @@
                     };
 
                     var reply_id;
+                    var presentTime;
                     $.ajax({
 						url	: "/board/reply/save",
 						dataType : "json",
@@ -43,6 +44,7 @@
 								alert(retVal.message);
 							}else{
 								reply_id = retVal.reply_id;
+								presentTime = retVal.date;
 							}
 						},
 						error	: function(request, status, error){
@@ -53,7 +55,7 @@
                             }
                      });
                      
-                    var reply = 
+                   /* var reply = 
                         '<tr reply_type="main">'+
                         '    <td width="820px">'+
                         reply_content+
@@ -66,8 +68,46 @@
                         '       <button name="reply_modify" r_type = "main" parent_id = "0" reply_id = "'+reply_id+'">수정</button>      '+
                         '       <button name="reply_del" r_type = "main" reply_id = "'+reply_id+'">삭제</button>      '+
                         '    </td>'+
-                        '</tr>';
+                        '</tr>';*/
                         
+                    var reply =
+                    	'<tr class="td-comment" reply_type="main">  '+
+                    	'	<td width="13%">'+
+                    	' 		<div class="comment-list">'+
+	                    '        <p> '+
+	                    '            <span'+
+	                    '                style="background-color:rgb(255,255,255);color:rgb(28,30,33);font-size:14px; font-weight: bold;">'+
+	                    '                '+student_name+'</span></p>'+
+	                    '       </div>'+
+                    	'	</td>'+
+                    	'	<td width="40%" style="text-align: left;">'+
+	                    '     <div class="comment-list">'+
+	                    '      	<p>'+
+	                    '          <span'+
+	                    '          	style="background-color:rgb(255,255,255);color:rgb(28,30,33);font-size:14px;">'+
+	                    '              '+reply_content+'</span></p>'+
+	                    '      </div>'+
+	                    '   </td>'+
+	                    '	<td width="7%" ></td>'+
+	                    '	<td  width="15%" style="text-align: left;">'+
+	                    '      <div class="comment-list">'+
+	                    '          <p>'+
+	                    '              <span'+
+	                    '                  style="background-color:rgb(255,255,255);color:rgb(28,30,33);font-size:14px;">'+
+	                    '                  '+presentTime+'</span></p>'+
+	                    '      </div>'+
+	                    '    </td>'+
+	                    '	<td width="25%" style="text-align: left;">'+
+	                    '     <div class="comment-list">'+
+	                    
+						'	<button name="reply_reply" reply_id = "'+reply_id+'">댓글</button>'+
+	                    '       <button name="reply_modify" r_type = "main" parent_id = "0" reply_id = "'+reply_id+'">수정</button>      '+
+	                    '       <button name="reply_del" r_type = "main" reply_id = "'+reply_id+'">삭제</button>      '+
+	                    '     </div>'+
+	                    '	 </td>'+
+	                    '	</tr>';
+	                    
+	                    
                     if($('#reply_area').contents().size()==0){
                     	$('#reply_area tr:last').after(reply); 
                     	 //window.location.replace("/board/view?bno="+bno+"&boardType="+boardType+"&listType="+listType);
@@ -131,16 +171,16 @@
 			    if(check){
                     if(r_type=="main"){//depth가 0이면 하위 댓글 다 지움
                         //삭제하면서 하위 댓글도 삭제
-                        var prevTr = $(this).parent().parent().next(); //댓글의 다음
+                        var prevTr = $(this).parent().parent().parent().next(); //댓글의 다음
                         
                         while(prevTr.attr("reply_type")=="sub"){//댓글의 다음이 sub면 계속 넘어감
                             prevTr.remove();
-                            prevTr = $(this).parent().parent().next();
+                            prevTr = $(this).parent().parent().parent().next();
                         }
                                                     
-                        $(this).parent().parent().remove();    
+                        $(this).parent().parent().parent().remove();    
                     }else{ //아니면 자기만 지움
-                        $(this).parent().parent().remove();    
+                        $(this).parent().parent().parent().remove();    
                     }
                     
                 }
@@ -158,6 +198,7 @@
                     var reply_id = $(this).attr("reply_id");
                     var parent_id = $(this).attr("parent_id");
                     var r_type = $(this).attr("r_type");
+                    var dateTime = $(this).attr("date_time");
                      
                     //패스워드와 아이디를 넘겨 패스워드 확인
                     //값 셋팅
@@ -203,33 +244,35 @@
                     if(check){
                         status = true;
                         //자기 위에 댓글 수정창 입력하고 기존값을 채우고 자기 자신 삭제
-                        var txt_reply_content = $(this).parent().prev().prev().html().trim(); //댓글내용 가져오기
+                        var txt_reply_content = $(this).parent().parent().parent().children().next().children().children().children().html().trim(); //댓글내용 가져오기
                         if(r_type=="sub"){
-                            txt_reply_content = txt_reply_content.replace("→ ","");//대댓글의 뎁스표시(화살표) 없애기
+                        	var txt_reply_writer = $(this).parent().parent().parent().children().children().children().children().next().html().trim();
+                        }else {
+                        	var txt_reply_writer = $(this).parent().parent().parent().children().children().children().children().html().trim(); //댓글작성자 가져오기
                         }
                         
-                        var txt_reply_writer = $(this).parent().prev().html().trim(); //댓글작성자 가져오기
+                       
                         
                         //입력받는 창 등록
                         var replyEditor = 
                            '<tr id="reply_add" class="reply_modify">'+
-                           '   <td width="820px">'+
+                           '   <td colspan="3"  style="text-align: left;">'+
                            '       <textarea name="reply_modify_content_'+reply_id+'" id="reply_modify_content_'+reply_id+'" rows="3" cols="50">'+txt_reply_content+'</textarea>'+ //기존 내용 넣기
                            '   </td>'+
-                           '   <td width="100px">'+
+                           '   <td >'+
                            		student_name+
                            '   </td>'+
-                           '   <td align="center" width="200px">'+
-                           '       <button name="reply_modify_save" r_type = "'+r_type+'" parent_id="'+parent_id+'" reply_id="'+reply_id+'">등록</button>'+
-                           '       <button name="reply_modify_cancel" r_type = "'+r_type+'" r_content = "'+txt_reply_content+'" r_writer = "'+txt_reply_writer+'" parent_id="'+parent_id+'"  reply_id="'+reply_id+'">취소</button>'+
+                           '   <td  >'+
+                           '       <button name="reply_modify_save" r_type = "'+r_type+'" parent_id="'+parent_id+'" reply_id="'+reply_id+'" dateTime="'+dateTime+'">등록</button>'+
+                           '       <button name="reply_modify_cancel" r_type = "'+r_type+'" r_content = "'+txt_reply_content+'" r_writer = "'+txt_reply_writer+'" parent_id="'+parent_id+'"  reply_id="'+reply_id+'" dateTime="'+dateTime+'">취소</button>'+
                            '   </td>'+
                            '</tr>';
-                        var prevTr = $(this).parent().parent();
+                        var prevTr = $(this).parent().parent().parent();
                            //자기 위에 붙이기
                         prevTr.after(replyEditor);
                         
                         //자기 자신 삭제
-                        $(this).parent().parent().remove(); 
+                        $(this).parent().parent().parent().remove(); 
                     }
                      
                 });//수정 끝
@@ -243,38 +286,83 @@
                     var r_writer = $(this).attr("r_writer");
                     var reply_id = $(this).attr("reply_id");
                     var parent_id = $(this).attr("parent_id");
+                    var presentTime = $(this).attr("dateTime")
                     
                     var reply;
                     //자기 위에 기존 댓글 적고 
                     if(r_type=="main"){
                         reply = 
-                            '<tr reply_type="main">'+
-                            '   <td width="820px">'+
-                            r_content+
-                            '   </td>'+
-                            '   <td width="100px">'+
-                            r_writer+
-                            '   </td>'+
-                            '   <td align="center"  width="200px">'+
-                            '       <button name="reply_reply" reply_id = "'+reply_id+'">댓글</button>'+
-                            '       <button name="reply_modify" r_type = "main" parent_id="0" reply_id = "'+reply_id+'">수정</button>      '+
-                            '       <button name="reply_del" reply_id = "'+reply_id+'">삭제</button>      '+
-                            '   </td>'+
-                            '</tr>';
+                        		'<tr class="td-comment" reply_type="main">  '+
+                            	'	<td width="13%">'+
+                            	' 		<div class="comment-list">'+
+        	                    '        <p> '+
+        	                    '            <span'+
+        	                    '                style="background-color:rgb(255,255,255);color:rgb(28,30,33);font-size:14px; font-weight: bold;">'+
+        	                    '                '+r_writer+'</span></p>'+
+        	                    '       </div>'+
+                            	'	</td>'+
+                            	'	<td width="40%" style="text-align: left;">'+
+        	                    '     <div class="comment-list">'+
+        	                    '      	<p>'+
+        	                    '          <span'+
+        	                    '          	style="background-color:rgb(255,255,255);color:rgb(28,30,33);font-size:14px;">'+
+        	                    '              '+r_content+'</span></p>'+
+        	                    '      </div>'+
+        	                    '   </td>'+
+        	                    '   <td width="7%" ></td>'+
+        	                    '	<td width="15%" style="text-align: left;">'+
+        	                    '      <div class="comment-list">'+
+        	                    '          <p>'+
+        	                    '              <span'+
+        	                    '                  style="background-color:rgb(255,255,255);color:rgb(28,30,33);font-size:14px;">'+
+        	                    '                  '+presentTime+'</span></p>'+
+        	                    '      </div>'+
+        	                    '    </td>'+
+        	                    '	<td width="25%" style="text-align: left;">'+
+        	                    '     <div class="comment-list">'+
+        	                    
+        						'		<button name="reply_reply" reply_id = "'+reply_id+'">댓글</button>'+
+        	                    '       <button name="reply_modify" r_type = "main" parent_id = "0" reply_id = "'+reply_id+'">수정</button>      '+
+        	                    '       <button name="reply_del" r_type = "main" reply_id = "'+reply_id+'">삭제</button>      '+
+        	                    '     </div>'+
+        	                    '	 </td>'+
+        	                    '</tr>';
                     }else{
                         reply = 
-                            '<tr reply_type="sub">'+
-                            '   <td width="820px"> → '+
-                            r_content+
-                            '   </td>'+
-                            '   <td width="100px">'+
-                            r_writer+
-                            '   </td>'+
-                            '   <td align="center"  width="200px">'+
-                            '       <button name="reply_modify" r_type = "sub" parent_id="'+parent_id+'" reply_id = "'+reply_id+'">수정</button>'+
-                            '       <button name="reply_del" reply_id = "'+reply_id+'">삭제</button>'+
-                            '   </td>'+
-                            '</tr>';
+                        		'<tr class="td-comment" reply_type="sub">  '+
+                        		
+                            	'	<td width="13%" >'+
+                            	' 		<div class="comment-list">'+
+        	                    '        <p> <span>L</span> '+
+        	                    '            <span'+
+        	                    '                style="background-color:rgb(255,255,255);color:rgb(28,30,33);font-size:14px; font-weight: bold;">'+
+        	                    '                '+r_writer+'</span></p>'+
+        	                    '       </div>'+
+                            	'	</td>'+
+                            	'	<td width="40%" style="text-align: left;">'+
+        	                    '     <div class="comment-list">'+
+        	                    '      	<p>'+
+        	                    '          <span'+
+        	                    '          	style="background-color:rgb(255,255,255);color:rgb(28,30,33);font-size:14px;">'+
+        	                    '              '+r_content+'</span></p>'+
+        	                    '      </div>'+
+        	                    '   </td>'+
+        	                    '	<td width="7%"></td>'+
+        	                    '	<td width="15%" style="text-align: left;">'+
+        	                    '      <div class="comment-list">'+
+        	                    '          <p>'+
+        	                    '              <span'+
+        	                    '                  style="background-color:rgb(255,255,255);color:rgb(28,30,33);font-size:14px;">'+
+        	                    '                  '+presentTime+'</span></p>'+
+        	                    '      </div>'+
+        	                    '    </td>'+
+        	                    '	<td width="25%" style="text-align: left;">'+
+        	                    '     <div class="comment-list">'+
+        	                    '       <button name="reply_modify" r_type = "sub" parent_id = '+parent_id+' reply_id = "'+reply_id+'" date_Time="'+presentTime+'">수정</button>      '+
+        	                    '       <button name="reply_del" r_type = "sub" reply_id = "'+reply_id+'">삭제</button>      '+
+        	                    '     </div>'+
+        	                    '	 </td>'+
+        	                    '	</tr>';
                     }
                     
                     var prevTr = $(this).parent().parent();
@@ -292,7 +380,7 @@
                 $(document).on("click","button[name='reply_modify_save']", function(){
                     
                     var reply_id = $(this).attr("reply_id");
-                    
+                    var dateTime = $(this).attr("dateTime");
                    
                      
                     if($("#reply_modify_content_"+reply_id).val().trim() == ""){
@@ -356,7 +444,7 @@
                     
                     //수정된댓글 내용을 적고
                     if(r_type=="main"){
-                        reply = 
+                       /* reply = 
                             '<tr reply_type="main">'+
                             '   <td width="820px">'+
                             $("#reply_modify_content_"+reply_id).val()+
@@ -369,9 +457,46 @@
                             '       <button name="reply_modify" r_type = "main" parent_id = "0" reply_id = "'+reply_id+'">수정</button>      '+
                             '       <button name="reply_del" r_type = "main" reply_id = "'+reply_id+'">삭제</button>      '+
                             '   </td>'+
-                            '</tr>';
-                    }else{
+                            '</tr>';*/
+                        
                         reply = 
+                        		'<tr class="td-comment" reply_type="main">  '+
+                            	'	<td width="13%">'+
+                            	' 		<div class="comment-list">'+
+        	                    '        <p> '+
+        	                    '            <span'+
+        	                    '                style="background-color:rgb(255,255,255);color:rgb(28,30,33);font-size:14px; font-weight: bold;">'+
+        	                    '                '+student_name+'</span></p>'+
+        	                    '       </div>'+
+                            	'	</td>'+
+                            	'	<td width="40%" style="text-align: left;">'+
+        	                    '     <div class="comment-list">'+
+        	                    '      	<p>'+
+        	                    '          <span'+
+        	                    '          	style="background-color:rgb(255,255,255);color:rgb(28,30,33);font-size:14px;">'+
+        	                    '              '+$("#reply_modify_content_"+reply_id).val()+'</span></p>'+
+        	                    '      </div>'+
+        	                    '   </td>'+
+        	                    '   <td width="7%" ></td>'+
+        	                    '	<td width="15%" style="text-align: left;">'+
+        	                    '      <div class="comment-list">'+
+        	                    '          <p>'+
+        	                    '              <span'+
+        	                    '                  style="background-color:rgb(255,255,255);color:rgb(28,30,33);font-size:14px;">'+
+        	                    '                  '+dateTime+'</span></p>'+
+        	                    '      </div>'+
+        	                    '    </td>'+
+        	                    '	<td width="25%" style="text-align: left;">'+
+        	                    '     <div class="comment-list">'+
+        	                    
+        						'		<button name="reply_reply" reply_id = "'+reply_id+'">댓글</button>'+
+        	                    '       <button name="reply_modify" r_type = "main" parent_id = "0" reply_id = "'+reply_id+'">수정</button>      '+
+        	                    '       <button name="reply_del" r_type = "main" reply_id = "'+reply_id+'">삭제</button>      '+
+        	                    '     </div>'+
+        	                    '	 </td>'+
+        	                    '</tr>';
+                    }else{
+                       /* reply = 
                             '<tr reply_type="sub">'+
                             '   <td width="820px"> → '+
                             $("#reply_modify_content_"+reply_id).val()+
@@ -380,10 +505,45 @@
                             	student_name+
                             '   </td>'+
                             '   <td align="center">'+
-                            '       <button name="reply_modify" r_type = "sub" parent_id = "'+parent_id+'" reply_id = "'+reply_id+'">수정</button>'+
+                            '       <button name="reply_modify" r_type = "sub" parent_id = "'+parent_id+'" reply_id = "'+reply_id+'" date_Time="'+dateTime+'">수정</button>'+
                             '       <button name="reply_del" r_type = "sub" reply_id = "'+reply_id+'">삭제</button>'+
                             '   </td>'+
-                            '</tr>';
+                            '</tr>';*/
+                        reply = 
+                        		'<tr class="td-comment" reply_type="sub">  '+
+                        		
+                            	'	<td width="13%" >'+
+                            	' 		<div class="comment-list">'+
+        	                    '        <p> <span>L</span> '+
+        	                    '            <span'+
+        	                    '                style="background-color:rgb(255,255,255);color:rgb(28,30,33);font-size:14px; font-weight: bold;">'+
+        	                    '                '+student_name+'</span></p>'+
+        	                    '       </div>'+
+                            	'	</td>'+
+                            	'	<td width="40%" style="text-align: left;">'+
+        	                    '     <div class="comment-list">'+
+        	                    '      	<p>'+
+        	                    '          <span'+
+        	                    '          	style="background-color:rgb(255,255,255);color:rgb(28,30,33);font-size:14px;">'+
+        	                    '              '+$("#reply_modify_content_"+reply_id).val()+'</span></p>'+
+        	                    '      </div>'+
+        	                    '   </td>'+
+        	                    '	<td width="7%"></td>'+
+        	                    '	<td width="15%" style="text-align: left;">'+
+        	                    '      <div class="comment-list">'+
+        	                    '          <p>'+
+        	                    '              <span'+
+        	                    '                  style="background-color:rgb(255,255,255);color:rgb(28,30,33);font-size:14px;">'+
+        	                    '                  '+dateTime+'</span></p>'+
+        	                    '      </div>'+
+        	                    '    </td>'+
+        	                    '	<td width="25%" style="text-align: left;">'+
+        	                    '     <div class="comment-list">'+
+        	                    '       <button name="reply_modify" r_type = "sub" parent_id = '+parent_id+' reply_id = "'+reply_id+'" date_Time="'+dateTime+'">수정</button>      '+
+        	                    '       <button name="reply_del" r_type = "sub" reply_id = "'+reply_id+'">삭제</button>      '+
+        	                    '     </div>'+
+        	                    '	 </td>'+
+        	                    '	</tr>';
                     }
                     
                     var prevTr = $(this).parent().parent();
@@ -414,22 +574,22 @@
                     
                     //입력받는 창 등록
                      var replyEditor = 
-                        '<tr id="reply_add" class="reply_reply">'+
-                        '    <td width="820px">'+
+                        '<tr id="reply_add">'+
+                        '    <td colspan="3">'+
                         '        <textarea name="reply_reply_content" rows="3" cols="50"></textarea>'+
                         '    </td>'+
-                        '    <td align="center" width="200px">'+
+                        '    <td colspan="">'+
                         '        <button name="reply_reply_save" parent_id="'+reply_id+'">등록</button>'+
                         '        <button name="reply_reply_cancel">취소</button>'+
                         '    </td>'+
                         '</tr>';
                         
-                    var prevTr = $(this).parent().parent().next();
+                    var prevTr = $(this).parent().parent().parent().next();
                     
                     //부모의 부모 다음이 sub이면 마지막 sub 뒤에 붙인다.
                     //마지막 리플 처리
                     if(prevTr.attr("reply_type") == undefined){
-                        prevTr = $(this).parent().parent();
+                        prevTr = $(this).parent().parent().parent();
                     }else{
                         while(prevTr.attr("reply_type")=="sub"){//댓글의 다음이 sub면 계속 넘어감
                             prevTr = prevTr.next();
@@ -448,7 +608,7 @@
                     }else{
                         prevTr.after(replyEditor);
                     }
-                    
+                   
                 });
                 
                 //대댓글 등록
@@ -478,7 +638,7 @@
                     
                     var reply_id;
                     var parent_id;
-                    
+                    var presentTime;
                     //ajax 호출
                     $.ajax({
                         url            :    "/board/reply/save",
@@ -494,6 +654,7 @@
                             }else{
                                 reply_id = retVal.reply_id;
                                 parent_id = retVal.parent_id;
+                                presentTime = retVal.date;
                                 alert(retVal.message);
                             }
                             
@@ -506,7 +667,7 @@
                             }
                     });
                     
-                    var reply = 
+                   /* var reply = 
                         '<tr reply_type="sub">'+
                         '    <td width="820px"> → '+
                         reply_reply_content_val+
@@ -518,8 +679,44 @@
                         '       <button name="reply_modify" r_type = "sub" parent_id = "'+parent_id+'" reply_id = "'+reply_id+'">수정</button>'+
                         '       <button name="reply_del" r_type = "sub" reply_id = "'+reply_id+'">삭제</button>'+
                         '    </td>'+
-                        '</tr>';
-                        
+                        '</tr>';*/
+                   
+                    var reply =
+                        	'<tr class="td-comment" reply_type="sub">  '+
+                        	
+                        	'	<td width="13%">'+
+                        	' 		<div class="comment-list">'+
+    	                    '        <p> <span> L </span>'+
+    	                    '            <span'+
+    	                    '                style="background-color:rgb(255,255,255);color:rgb(28,30,33);font-size:14px; font-weight: bold;">'+
+    	                    '                '+student_name+'</span></p>'+
+    	                    '       </div>'+
+                        	'	</td>'+
+                        	'	<td width="40%" style="text-align: left;">'+
+    	                    '     <div class="comment-list">'+
+    	                    '      	<p>'+
+    	                    '          <span'+
+    	                    '          	style="background-color:rgb(255,255,255);color:rgb(28,30,33);font-size:14px;">'+
+    	                    '              '+reply_reply_content_val+'</span></p>'+
+    	                    '      </div>'+
+    	                    '   </td>'+
+    	                    '	<td width="7%" ></td>'+
+    	                    '	<td  width="15%" style="text-align: left;">'+
+    	                    '      <div class="comment-list">'+
+    	                    '          <p>'+
+    	                    '              <span'+
+    	                    '                  style="background-color:rgb(255,255,255);color:rgb(28,30,33);font-size:14px;">'+
+    	                    '                  '+presentTime+'</span></p>'+
+    	                    '      </div>'+
+    	                    '   </td>'+
+    	                    '	<td width="25%" style="text-align: left;">'+
+    	                    '     <div class="comment-list">'+
+    	                    '       <button name="reply_modify" r_type = "sub" parent_id = "'+parent_id+'" reply_id = "'+reply_id+'">수정</button>      '+
+    	                    '       <button name="reply_del" r_type = "sub" reply_id = "'+reply_id+'">삭제</button>      '+
+    	                    '     </div>'+
+    	                    '	</td>'+
+    	                    '</tr>';
+                    
                     var prevTr = $(this).parent().parent().prev();
                     
                     prevTr.after(reply);

@@ -24,7 +24,6 @@ p,
 select,
 table,
 td,
-textarea,
 th,
 tr,
 ul {
@@ -43,7 +42,9 @@ a:hover {
     font-weight: bold;
 }
 
-
+textarea{
+	color:#000;
+}
 
 /* 폰트 스타일 초기화 */
 address,

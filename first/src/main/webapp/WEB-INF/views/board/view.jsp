@@ -139,7 +139,7 @@ textarea {
                         	</li>
                         </c:forEach>
                     </ul>
-                    <div class="search">
+                    <%-- <div class="search">
 	                    <select name="searchType">
 							<option value="title" <c:if test="${page.searchType eq 'title' }">selected</c:if> >제목</option>
 							<option value="content" <c:if test="${page.searchType eq 'content' }">selected</c:if>>내용</option>
@@ -148,7 +148,7 @@ textarea {
 						</select>
                         <input type="text" class="submit" name="keyword" value='${page.keyword }' />
                         <button type="button" id="searchBtn">검색</button>
-                    </div>
+                    </div> --%>
                 </div>
 
                 <div class="board-list">
@@ -197,21 +197,20 @@ textarea {
 						<!-- 댓글의 depth 표시 -->
 						
 						<c:if test="${replyList.depth == '1'}">
-							<td>
-	                                   <p>└</p>
-	                          	</td>
 					 	</c:if>
-					 	
-						 <td >
+					 	 
+						 <td width="13%" >
 	                         <div class="comment-list">
 	                             <p>
+	                             	<c:if test="${replyList.depth == '1'}"> <span>     L</span> </c:if>
 	                                 <span
 	                                     style="background-color:rgb(255,255,255);color:rgb(28,30,33);font-size:14px; font-weight: bold;">
+	                                     
 	                                     ${replyList.reply_writer }</span></p>
 	                         </div>
 	                     </td>
 	                     
-	                     <td colspan="3">
+	                     <td width="40%" style="text-align: left;">
 	                          <div class="comment-list">
 	                              <p>
 	                                  <span
@@ -219,7 +218,8 @@ textarea {
 	                                     ${replyList.reply_content}</span></p>
 	                          </div>
 	                      </td>
-	                      <td colspan="">
+	                      <td width="7%" ></td>
+	                      <td width="15%" style="text-align: left;">
 	                          <div class="comment-list">
 	                              <p>
 	                                  <span
@@ -227,26 +227,19 @@ textarea {
 	                                      ${replyList.register_datetime_real }</span></p>
 	                          </div>
 	                      </td>
-						<td colspan="">
+						<td width="25%" style="text-align: left;">
 	                         <div class="comment-list">
 	                             <c:if test="${replyList.depth != '1'}">
 									<button name="reply_reply" parent_id="${replyList.reply_id}"
 											reply_id="${replyList.reply_id}">댓글
 									</button>
 										<!-- 첫 댓글에만 댓글이 추가, 대댓글 불가 -->
-								</c:if>
-	                             <p>
-	                                 <span
-	                                     style="background-color:rgb(255,255,255);color:rgb(28,30,33);font-size:14px;">
-	                                     |</span></p>
-		                             <button name="reply_modify" parent_id="${replyList.parent_id}"
+	                             </c:if>
+		                       	<button name="reply_modify" parent_id="${replyList.parent_id}"
 											r_type="<c:if test="${replyList.depth == '0'}">main</c:if><c:if test="${replyList.depth == '1'}">sub</c:if>"
-											reply_id="${replyList.reply_id}">수정
-									</button>
-	                             <p>
-	                                 <span
-	                                     style="background-color:rgb(255,255,255);color:rgb(28,30,33);font-size:14px;">
-	                                     |</span></p>
+											reply_id="${replyList.reply_id}" date_time="${replyList.register_datetime_real }">수정
+								</button>
+	                             
 	                             <button name="reply_del"
 									r_type="<c:if test="${replyList.depth == '0'}">main</c:if><c:if test="${replyList.depth == '1'}">sub</c:if>"
 									reply_id="${replyList.reply_id}">삭제
@@ -256,7 +249,7 @@ textarea {
 					</tr>
 				</c:forEach>
 			</table>
-							<!-- 댓글 -->
+							<!-- <!-- 댓글 
                             <tr class="td-comment">
                                 <td >
                                     <div class="comment-list">
@@ -300,7 +293,7 @@ textarea {
                                 </td>
                             </tr>
                             
-                          	<!-- 대댓글 -->
+                          	대댓글
                             <tr class="td-comment">
                                 <td>
                                     <p>└</p>
@@ -390,7 +383,7 @@ textarea {
                                         <a href="#">삭제</a>
                                     </div>
                                 </td>
-                            </tr>
+                            </tr> -->
                             
                         
                     <div id="comment">
@@ -399,7 +392,9 @@ textarea {
                             <button id="reply_save" name="reply_save">댓글 등록</button>
                         </div>
                     </div>
-                    
+                    <div id="back">
+                    	<a href ="/board/listPageSearch?num=1&boardType=${boardType }&listType=${listType }"> &lt 게시물 목록</a>
+                    </div>
                  								
                 </div>
             </div>

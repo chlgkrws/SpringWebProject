@@ -128,9 +128,9 @@
 									<a href="/board/view?bno=${list.bno }&boardType=${page.boardType}&listType=${page.listType}">${list.title }</a>					
 								</td>
 								<td>
-									<fmt:formatDate value="${list.regDate}" pattern="yyyy-MM-dd"/>
+									${list.writer }
 								</td>
-								<td>${list.writer }</td>
+								<td><fmt:formatDate value="${list.regDate}" pattern="yyyy-MM-dd"/></td>
 								<td>${list.viewCnt }</td>
 							</tr>
 						</c:forEach>

@@ -1,4 +1,4 @@
-package com.board.domain;
+ package com.board.domain;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

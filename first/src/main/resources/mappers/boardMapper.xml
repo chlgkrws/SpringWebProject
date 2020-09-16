@@ -121,7 +121,7 @@
 
 		<if test='searchType.equals("title_content")'>
 			where title LIKE concat('%',#{keyword},'%')
-			or where content LIKE
+			or content LIKE
 			concat('%',#{keyword},'%')
 		</if>
 

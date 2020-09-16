@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import java.util.spi.CalendarDataProvider;
@@ -231,7 +232,6 @@ public class BoardController {
 		LinkedHashMap<String, String> hm = new LinkedHashMap<String, String>();
 		hm = getSideMenu(boardType, listType);
 		
-		
 
 		Page page = new Page();
 		page.setNum(num);
@@ -266,7 +266,7 @@ public class BoardController {
 	// 댓글 등록 (ajax)
 	@RequestMapping(value = "/reply/save", method = RequestMethod.POST)
 	@ResponseBody
-	public Object boardReplySave(@RequestParam Map<String, Object> paramMap, HttpServletRequest request) {
+	public Object boardReplySave(@RequestParam Map<String, Object> paramMap, HttpServletRequest request, Locale locale) {
 		// 호출한 곳에 response
 		Map<String, Object> retVal = new HashMap<String, Object>();
 		// System.out.println("hi");
@@ -286,6 +286,8 @@ public class BoardController {
 			retVal.put("reply_id", paramMap.get("reply_id"));
 			retVal.put("parant_id", paramMap.get("parent_id"));
 			retVal.put("message", "등록에 성공 하였습니다.");
+			retVal.put("date", new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date()));
+			System.out.println(retVal.get("date"));
 			log.info(paramMap.get("board_bno") + "번 글에서 " + paramMap.get("student_id") + "님이 reply_id: "
 					+ paramMap.get("reply_id") + "번 댓글을 등록했습니다. ip = " + request.getRemoteAddr());
 		} else {
