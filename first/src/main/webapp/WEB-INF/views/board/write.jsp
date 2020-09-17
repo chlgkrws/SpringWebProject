@@ -40,9 +40,6 @@
 		<c:if test="${modify != null}">완료</c:if>
 		</button>
 		
-		<div id="nav">
-			<%@ include file="../include/nav.jsp"%>
-		</div>
 
 		<div>
 			<input type="hidden" name="${_csrf.parameterName }"
@@ -69,7 +66,7 @@
                 
                  
                 $("#save").click(function(){
-                    alert("${boardType}");
+                  
                     //에디터 내용 가져옴
                     var content = CKEDITOR.instances.content.getData();
                     var writer = $("#principal_name").val();		//권한가진 유저의 이름가져오기

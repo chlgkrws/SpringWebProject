@@ -52,7 +52,7 @@
                        <h3 class="ir_su">메뉴 및 게시판 컨텐츠 영역</h3>
                        <article class="column col1">
                            <h4 class="col_tit">Menu</h4>
-                           <p class="col_desc">Category 분류</p>
+                           <p class="col_desc"> </p>
                            <!-- 메뉴 -->
                            <div class="menu">
                                <ul>
@@ -160,7 +160,7 @@
                        <h3 class="ir_su">반응형 사이트 가운데 컨텐츠</h3>
                        <article class="column col4">
                            <h4 class="col_tit">Image Slider</h4>
-                           <p class="col_desc">게시물 썸네일?</p>
+                           <p class="col_desc"></p>
                            <!-- 이미지 슬라이드 -->
                            <div class="slider">
                                <div>
@@ -246,64 +246,7 @@
                        <!-- //col6 -->
                    </section>
                    <!-- //cont_center -->
-                   <section id="cont_right">
-                       <h3 class="ir_su">반응형 사이트 오른쪽 컨텐츠</h3>
-                       <article class="column col7">
-                           <h4 class="col_tit">Effect1</h4>
-                           <p class="col_desc">마우스 오버효과1</p>
-                           <!-- side1 -->
-                           <div class="side1">
-                               <figure class="front">
-                                   <img src="/resources/img/side1.jpg" alt="이미지2">
-                               </figure>
-                               <div class="back">
-                                   <i class="fa fa-heart fa-4x" aria-hidden="true"></i>
-                               </div>
-                           </div>
-                           <!-- side1//-->
-                       </article>
-                       <!-- //col7 -->
-
-                       <article class="column col8">
-                           <h4 class="col_tit">Effect2</h4>
-                           <p class="col_desc">마우스 오버효과2</p>
-                           <!-- side2 -->
-                           <div class="side2">
-                               <figure class="front">
-                                   <img src="/resources/img/side2.jpg" alt="이미지2">
-                                   <figcaption>
-                                       <h3>Hover Effect</h3>
-                                   </figcaption>
-                               </figure >
-                               <figure class="back">
-                                   <img src="/resources/img/side4.jpg" alt="이미지2">
-                                   <figcaption>
-                                       <h3>Hover Effect</h3>
-                                   </figcaption>
-                               </figure>
-                           </div>
-                           <!-- side2//-->
-                       </article>
-                       <!-- //col8 -->
-
-                       <article class="column col9">
-                           <h4 class="col_tit">Effect3</h4>
-                           <p class="col_desc">마우스 오버효과3</p>
-                           <!-- side3 -->
-                           <div class="side3">
-                               <figure>
-                                   <img src="/resources/img/side3.jpg" alt="이미지3">
-                                   <figcaption>
-                                       <h3>Hover<em>Effect</em>
-                                       </h3>
-                                   </figcaption>
-                               </figure>
-                           </div>
-                           <!-- side3//-->
-                       </article>
-                       <!-- //col9 -->
-                   </section>
-                   <!-- //cont_right -->
+                   
                </div>
            </section>
            <!-- //contents -->

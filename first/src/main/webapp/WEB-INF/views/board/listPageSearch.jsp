@@ -107,7 +107,7 @@
 				</div>
 				<div align ="right">
 					
-					<a href="/board/write?boardType=${boardType }&listType=${listType}">글 작성</a>
+					<a style="border:1px solid #ddd; padding:10px;" href="/board/write?boardType=${boardType }&listType=${listType}">글 작성</a>
 				</div>
             </div>
             <!--container-->
